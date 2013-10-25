@@ -36,30 +36,6 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
   </slide>
 
-  <slide>
-    <hgroup>
-      <h2>About me</h2>
-    </hgroup>
-    <article>
-      <ul>
-        <li>Data analyst at Mozilla
-          <ul>
-            <li>Labeling open-ended survey questions</li>
-            <li>Tagging user input forms</li>
-            <li>*Topic and sentiment analysis of social media</li>
-          </ul>
-        </li>
-        <li>PhD Candidate at Stanford
-          <ul>
-            <li>Large-scale computational analysis of news media</li>
-            <li>Impact of news coverage on public opinion</li>
-            <li>Agenda-setting, gatekeeping effects</li>
-          </ul>
-        </li>
-      </ul>
-    </article>
-  </slide>
-
 <slide>
 	<hgroup>
 		<h2>What will and won't this session cover?</h2>
@@ -88,6 +64,38 @@ URL: https://code.google.com/p/io-2012-slides
 			</li>
         </ul>
 	</article>
+</slide>
+
+<slide>
+  <hgroup>
+    <h2>About me</h2>
+  </hgroup>
+  <article>
+    <ul>
+      <li>Data analyst at Mozilla
+        <ul>
+          <li>Labeling open-ended survey questions</li>
+          <li>Tagging user input forms</li>
+          <li>*Topic and sentiment analysis of social media</li>
+        </ul>
+      </li>
+      <li>PhD Candidate at Stanford
+        <ul>
+          <li>Large-scale computational analysis of news media</li>
+          <li>Impact of news coverage on public opinion</li>
+          <li>Agenda-setting, gatekeeping effects</li>
+        </ul>
+      </li>
+	  <li>Why am I doing this?
+          <ul>
+            <li>More and more text data available, harder and harder to deal with</li>
+            <li>Give people the tools to handle these data without paying for expensive software</li>
+            <li>See that transforming unstructured data to structured is fairly mechanical</li>
+            <li>Learn how easy it can be to draw (false?) inferences from black boxes</li>
+          </ul>
+      </li>
+    </ul>
+  </article>
 </slide>
 
 
@@ -175,7 +183,63 @@ URL: https://code.google.com/p/io-2012-slides
   </article>
 </slide>
 
+<slide>
+	<hgroup>
+		<h2>How to we treat text as data?</h2>
+	</hgroup>
+	<article>
+		<ul class="build">
+			<li><b>Four levels</b>: Corpus, document, sentence, and word
+				<ul class="build fade">
+					<li>Word-level: frequencies of mentions</li>
+					<li>Sentence-level: sentiment, grammatical relations</li>
+					<li>Document-level: topic(s), labels</li>
+					<li>Corpus-level: topics</li>
+				</ul>
+			</li>
+			<li>We're mostly interested in sentence, document, and corpus-level measures</li>
+			<li><b>The most important thing to know:</b> Choosing a level of analysis is determined by your assumptions about which one is most meaningful; there are <b>no rules</b> here.</li>
+			<li><b>The second most important thing to know:</b> Almost all of these methods depend upon the <b class="red">vector-space model of text</b></li>
+		</ul>
+	</article>
+</slide>
 
+<slide>
+	<hgroup>
+		<h2>The Vector Space Model</h2>
+	</hgroup>
+	<article>
+	<ul class="build">
+		<li>A corpus is a collection of documents</li>
+		<li>A document, at some level, is just a collection of words</li>
+		<li>If we throw away the ordering of words, then we have a <b>bag of words</b></li>
+		<li>If we treat every document as a bag of words, every document is now a <b>word vector</b>
+		<li>If we can keep track of the count of words, then we can represent each document as a <b>term frequency vector</b> </li>
+		<li>Most people like to represent a bag-of-words corpus as a <b>document-term matrix</b>
+	</article>
+	</ul>
+</slide>
+
+<slide>
+  <article class="flexbox vcenter">
+	  <img src="images/dtm.png" height="550px" width="100px">
+  </article>
+</slide>
+
+<slide>
+  <hgroup>
+	  <h2>Vector space model</h2>
+  </hgroup>
+  <article class="flexbox vcenter">
+	  <img src="images/transformation.png" height="450px">
+  </article>
+</slide>
+
+<slide>
+  <article>
+    <iframe data-src="tfidf.html"></iframe>
+  </article>
+</slide>
 
 
 <slide>
@@ -200,56 +264,13 @@ URL: https://code.google.com/p/io-2012-slides
 			</li>
 			<li><b>Java</b></li>
 			<ul class="build">
-				<li><b>Stanford CoreNLP</b>: One of the most full-featured NLP pipelines, many state-of-the-art baseline accuracies, can do NER, POS tagging, Sentiment, Classification, and more</li>
-				<li><b>*Stanford Topic Modeling Toolbox</b>: Scala library that can do LDA, LLDA, and PLDA</li>
+				<li><b>Stanford CoreNLP</b>: One of the most full-featured NLP pipelines, many state-of-the-art baseline accuracies, can do NER, POS tagging, Sentiment, Classification, and more (also check out the <b>*Stanford Topic Modeling Toolbox</b>, a Scala library that can do LDA, LLDA, and PLDA)</li>
 				<li><b>MALLET</b>: Very popular all-in-one library from UMass-Amherst, not sure about scalability and parallellization</li>
 			</ul>
 	</ul>
 </article>
 </slide>
 
-<slide>
-	<hgroup>
-		<h2>How to we treat text as data?</h2>
-	</hgroup>
-	<article>
-		<ul class="build">
-			<li><b>Four levels</b>: Corpus, document, sentence, and word
-				<ul class="build fade">
-					<li>Word-level: frequencies of mentions</li>
-					<li>Sentence-level: sentiment, grammatical relations</li>
-					<li>Document-level: topic(s), labels</li>
-					<li>Corpus-level: topics</li>
-				</ul>
-			</li>
-			<li>We're mostly interested in sentence, document, and corpus-level measures</li>
-			<li><b>The most important thing to know:</b> Choosing a level of analysis is determined by your assumptions about which one is most meaningful</li>
-			<li><b>The second most important thing to know:</b> Almost all of these methods depend upon the <b class="red">vector-space model of text</b></li>
-		</ul>
-	</article>
-</slide>
-
-<slide>
-	<hgroup>
-		<h2>The Vector Space Model</h2>
-	</hgroup>
-	<article>
-	<ul class="build">
-		<li>A corpus is a collection of documents</li>
-		<li>A document, at some level, is just a collection of words</li>
-		<li>If we throw away the ordering of words, then we have a <b>bag of words</b></li>
-		<li>If we treat every document as a bag of words, every document is now a <b>word vector</b>
-		<li>If we can keep track of the count of words, then we can represent each document as a <b>term frequency vector</b> </li>
-		<li>Most people like to represent a bag-of-words corpus as a <b>document-term matrix</b>
-	</article>
-	</ul>
-</slide>
-
-<slide>
-  <article>
-    <iframe data-src="tfidf.html"></iframe>
-  </article>
-</slide>
 
 <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/ff-logo.png"></aside>
@@ -302,9 +323,11 @@ URL: https://code.google.com/p/io-2012-slides
 	<article class="flexbox vcenter">
 		<p>Breakout session!</p>
 		<p>Get in groups of no less than 3 and no more than 5.</p>
-		<p>Go into "sentiment_examples" and choose a file.  These are sentences that were either labeled positive/negative by one of these libraries or they were hand-annotated.  Debate the labels!  Does your group agree with the machine/hand-annotators?</p>
-		<p>We're going to discuss the labels afterwards, so identify examples of really good/bad examples</p>
-		</ul>
+		<ul>
+			<li>Go into "sentiment_examples" and choose a file.  These are sentences that were either labeled positive/negative by one of these libraries or they were hand-annotated. </li>
+			<li><b>Debate the labels!</b></li>
+			<li>Does your group agree with the machine/hand-annotators?</li>
+			<li>We're going to discuss the labels afterwards, so identify examples of really good/bad examples</li>
 	</article>
 </slide>
 
@@ -407,7 +430,7 @@ URL: https://code.google.com/p/io-2012-slides
 
 <script>
 var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_setAccount', 'UA-39179035-3']);
 _gaq.push(['_trackPageview']);
 
 (function() {

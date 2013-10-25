@@ -12,6 +12,11 @@ We're going to use a very small random sample of the very famous `sentiment pola
 ```r
 library(plyr)
 library(reshape2)
+library(sentiment)
+```
+
+```
+## Loading required package: tm Loading required package: Rstem
 ```
 
 
@@ -21,14 +26,6 @@ library(reshape2)
 ```r
 # Using Tim Jurka's sentiment package Code adapted from Collingwood and
 # Jurka
-library(sentiment)
-```
-
-```
-## Loading required package: tm Loading required package: Rstem
-```
-
-```r
 setwd("/Users/rweiss/Dropbox/presentations/MozFest2013/data/")
 rt_neg = read.delim("rt-polaritydata/rt-polaritydata/rt-polarity.neg", header = F, 
     quote = "")
@@ -49,7 +46,7 @@ reviews_sample <- reviews[sample(1:num_documents, size = sample_size, replace = 
 reviews_sample$content = as.character(reviews_sample$content)
 
 foo = data.frame(as.character(reviews_sample$label), as.character(reviews_sample$content))
-write.csv(reviews_sample$content, "reviews_data.csv", row.names = F, col.names = F)
+write.csv(reviews_sample$content, "../data/reviews_data.csv", row.names = F)
 # let's save this so we can compare it against the SASA tool
 write.table(foo, "../sentiment_examples/reviews_sample.csv", col.names = c("label", 
     "content"), row.names = F, quote = F, sep = "\t")
@@ -66,20 +63,20 @@ head(reviews_sample)  # Look at the first six lines or so
 ```
 
 ```
-##                                                                                                                                                                                                      content
-## 8297                                                                                           originality ain't on the menu , but there's never a dull moment in the giant spider invasion comic chiller . 
-## 7325                                                                                                                                                      an absorbing and unsettling psychological drama . 
-## 6929                                                                high crimes steals so freely from other movies and combines enough disparate types of films that it can't help but engage an audience . 
-## 3053                                                                                                      a frantic search for laughs , with a hit-to-miss ratio that doesn't exactly favour the audience . 
-## 6937 the work of a filmmaker who has secrets buried at the heart of his story and knows how to take time revealing them . strange occurrences build in the mind of the viewer and take on extreme urgency . 
-## 3477                                                                           yet another movie which presumes that high school social groups are at war , let alone conscious of each other's existence . 
-##         label
-## 8297 positive
-## 7325 positive
-## 6929 positive
-## 3053 negative
-## 6937 positive
-## 3477 negative
+##                                                                                                                                                              content
+## 5521  watching beanie and his gang put together his slasher video from spare parts and borrowed materials is as much fun as it must have been for them to make it . 
+## 9550                                                                                       somehow ms . griffiths and mr . pryce bring off this wild welsh whimsy . 
+## 10328                                                     [washington's] strong hand , keen eye , sweet spirit and good taste are reflected in almost every scene . 
+## 9817                                                                 the salton sea has moments of inspired humour , though every scrap is of the darkest variety . 
+## 6502                                            instead of a hyperbolic beat-charged urban western , it's an unpretentious , sociologically pointed slice of life . 
+## 4940                                    a film that presents an interesting , even sexy premise then ruins itself with too many contrivances and goofy situations . 
+##          label
+## 5521  positive
+## 9550  positive
+## 10328 positive
+## 9817  positive
+## 6502  positive
+## 4940  negative
 ```
 
 ```r
@@ -122,7 +119,7 @@ table(reviews_sample$label)
 ```
 ## 
 ## negative positive 
-##       51       49
+##       47       53
 ```
 
 ```r
@@ -136,7 +133,7 @@ number_correct/sample_size
 ```
 
 ```
-## [1] 0.49
+## [1] 0.51
 ```
 
 ```r
@@ -147,7 +144,7 @@ table(reviews_sample$label)
 ```
 ## 
 ## negative positive 
-##       51       49
+##       47       53
 ```
 
 ```r
@@ -157,7 +154,7 @@ table(predicted_sentiment$label)
 ```
 ## 
 ## negative positive 
-##       42       58
+##       40       60
 ```
 
 ```r

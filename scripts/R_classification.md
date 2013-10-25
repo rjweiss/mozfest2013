@@ -43,8 +43,8 @@ The dataset used are the titles and topic codes from the `NYTimes` dataset that 
 
 
 ```r
-# Code adapted from Collingwood and Jurka
-
+# Code adapted from Collingwood and Jurka see here:
+# http://www.rtexttools.com/1/post/2012/02/rtexttools-short-course-materials.html
 # READ THE CSV DATA from the RTextTools package Note that RTextTools has
 # many dependencies, but Collingwood & Jurka [wisely] chose to keep all the
 # dependencies R-friendly (read, no Java that I know of).
@@ -168,17 +168,17 @@ dim(NYTimes)  #Check the dimensions, rows and columns
 # [OPTIONAL] SUBSET YOUR DATA TO GET A RANDOM SAMPLE we don't have that much
 # data, so we're going to keep it all sample_size = 500
 sample_size = num_documents
-NYT_sample <- NYTimes[sample(1:num_documents, size = sample_size, replace = FALSE), 
+NYT_sample = NYTimes[sample(1:num_documents, size = sample_size, replace = FALSE), 
     ]
 
 out_data = data.frame(NYT_sample$Topic.Code, NYT_sample$Title)
-write.csv(out_data, "nyt_title_data.csv", row.names = F)
+write.csv(out_data, "../data/nyt_title_data.csv", row.names = F)
 
 # CREATE A TERM-DOCUMENT MATRIX THAT REPRESENTS WORD FREQUENCIES IN EACH
-# DOCUMENT WE WILL TRAIN ON THE Title COLUMNS NYT_dtm <-
+# DOCUMENT WE WILL TRAIN ON THE Title COLUMNS NYT_dtm =
 # create_matrix(data.frame(NYT_sample$Title,NYT_sample$Subject),
-NYT_dtm <- create_matrix(as.vector(NYT_sample$Title), language = "english", 
-    removeNumbers = TRUE, stemWords = TRUE, weighting = weightTfIdf)
+NYT_dtm = create_matrix(as.vector(NYT_sample$Title), language = "english", removeNumbers = TRUE, 
+    stemWords = TRUE, weighting = weightTfIdf)
 
 NYT_dtm  # Sparse Matrix object
 ```
@@ -201,7 +201,7 @@ NYT_dtm  # Sparse Matrix object
 train_n = round(sample_size * 0.8)
 test_n = round(sample_size * 0.2)
 
-corpus <- create_container(NYT_dtm, NYT_sample$Topic.Code, trainSize = 1:train_n, 
+corpus = create_container(NYT_dtm, NYT_sample$Topic.Code, trainSize = 1:train_n, 
     testSize = (train_n + 1):sample_size, virgin = FALSE)
 
 names(attributes(corpus))
@@ -218,7 +218,7 @@ paste(NYT_sample[1, ]$Title)  # original data
 ```
 
 ```
-## [1] "ISRAELIS BATTER GAZA AND SEIZE HAMAS OFFICIALS"
+## [1] "Dole Courts Democrats"
 ```
 
 ```r
@@ -226,15 +226,15 @@ corpus@column_names[corpus@training_matrix[1]@ja]  # preprocessed data
 ```
 
 ```
-## [1] "batter" "gaza"   "hama"   "isra"   "offici" "seiz"
+## [1] "court"    "democrat" "dole"
 ```
 
 ```r
 
 # TRAIN MODELS
-models <- train_models(corpus, algorithms = c("SVM", "MAXENT"))
-results <- classify_models(corpus, models)
-analytics <- create_analytics(corpus, results)
+models = train_models(corpus, algorithms = c("SVM", "MAXENT"))
+results = classify_models(corpus, models)
+analytics = create_analytics(corpus, results)
 
 nyt_codes = read.csv("../data/nytimes_codes.csv")
 test_start_index = num_documents - train_n
@@ -267,21 +267,21 @@ analytics@algorithm_summary
 
 ```
 ##    SVM_PRECISION SVM_RECALL SVM_FSCORE MAXENTROPY_PRECISION
-## 3           0.79       0.49       0.60                 0.63
-## 12          0.44       0.52       0.48                 0.40
-## 15          0.32       0.38       0.35                 0.50
-## 16          0.67       0.65       0.66                 0.54
-## 19          0.66       0.72       0.69                 0.71
-## 20          0.82       0.82       0.82                 0.86
-## 29          0.74       0.71       0.72                 1.00
+## 3           0.72       0.54       0.62                 0.74
+## 12          0.46       0.53       0.49                 0.53
+## 15          0.52       0.39       0.45                 0.65
+## 16          0.61       0.58       0.59                 0.51
+## 19          0.61       0.70       0.65                 0.65
+## 20          0.73       0.72       0.72                 0.71
+## 29          0.80       0.80       0.80                 0.86
 ##    MAXENTROPY_RECALL MAXENTROPY_FSCORE
-## 3               0.53              0.58
-## 12              0.44              0.42
-## 15              0.54              0.52
-## 16              0.75              0.63
-## 19              0.64              0.67
-## 20              0.76              0.81
-## 29              0.68              0.81
+## 3               0.51              0.60
+## 12              0.56              0.54
+## 15              0.45              0.53
+## 16              0.63              0.56
+## 19              0.68              0.66
+## 20              0.71              0.71
+## 29              0.71              0.78
 ```
 
 ```r
@@ -292,8 +292,8 @@ analytics@algorithm_summary
 
 
 ```r
-x <- as.character(rownames(analytics@algorithm_summary))[-20]
-y <- analytics@algorithm_summary$SVM_RECALL[-20]
+x = as.character(rownames(analytics@algorithm_summary))[-20]
+y = analytics@algorithm_summary$SVM_RECALL[-20]
 plot(x, y, type = "l", lwd = 3, main = "Support Vector Machine Topic Accuracy", 
     ylab = "Recall Accuracy", xlab = "Topic")
 abline(h = 0.75, lwd = 2, col = "maroon")
@@ -304,8 +304,8 @@ text(x, y, adj = 1.2)
 
 ```r
 
-x <- as.character(rownames(analytics@algorithm_summary))[-20]
-y <- analytics@algorithm_summary$MAXENTROPY_RECALL[-20]
+x = as.character(rownames(analytics@algorithm_summary))[-20]
+y = analytics@algorithm_summary$MAXENTROPY_RECALL[-20]
 plot(x, y, type = "l", lwd = 3, main = "Maximum Entropy Topic Accuracy", ylab = "Recall Accuracy", 
     xlab = "Topic")
 abline(h = 0.75, lwd = 2, col = "maroon")
@@ -322,22 +322,173 @@ text(x, y, adj = 1.2)
 library(topicmodels)
 
 #term frequency vectors, not tf-idf vectors
-n_topics = 20
-NYT_dtm <- create_matrix(as.vector(NYT_sample$Title), 
+n_topics = 60
+NYT_dtm = create_matrix(as.vector(NYT_sample$Title), 
                          language="english", 
                          removeNumbers=FALSE, 
                          stemWords=FALSE, #only because they are short 
                          weighting=weightTf)
 
-rowTotals <- apply(NYT_dtm , 1, sum)
-NYT_dtm_full   <- NYT_dtm[rowTotals> 0]  
+rowTotals = apply(NYT_dtm , 1, sum)
+NYT_dtm_full  = NYT_dtm[rowTotals> 0]  
 
-k <- length(unique(NYT_sample$Topic.Code))
-lda <- LDA(NYT_dtm_full, k)
+#k = length(unique(NYT_sample$Topic.Code))
+lda = LDA(NYT_dtm_full, n_topics)
 
+topic = topics(lda, 1)
+topic[1]
+```
 
-data("AssociatedPress", package = "topicmodels")
-lda <- LDA(AssociatedPress[1:1000,], control = list(alpha = 0.1), k = 20)
-lda_inf <- posterior(lda, AssociatedPress[21:30,])
+```
+## Dole Courts Democrats 
+##                    18
+```
+
+```r
+
+terms = terms(lda, 10)
+terms
+```
+
+```
+##       Topic 1    Topic 2    Topic 3     Topic 4       Topic 5    
+##  [1,] "aids"     "say"      "says"      "senate"      "will"     
+##  [2,] "benefit"  "military" "fbi"       "home"        "york"     
+##  [3,] "clintons" "plans"    "test"      "money"       "drug"     
+##  [4,] "face"     "calls"    "just"      "global"      "state"    
+##  [5,] "chaos"    "changes"  "agents"    "fire"        "law"      
+##  [6,] "african"  "women"    "cover"     "republicans" "air"      
+##  [7,] "patients" "sell"     "charter"   "justices"    "stay"     
+##  [8,] "rally"    "concern"  "terrorist" "cash"        "asserts"  
+##  [9,] "donors"   "proposes" "cases"     "short"       "donations"
+## [10,] "billions" "pushing"  "managed"   "1998"        "sexual"   
+##       Topic 6    Topic 7     Topic 8      Topic 9   Topic 10   Topic 11 
+##  [1,] "gop"      "mideast"   "clinton"    "new"     "inquiry"  "care"   
+##  [2,] "attacks"  "long"      "focus"      "see"     "russian"  "health" 
+##  [3,] "begins"   "medicare"  "chinas"     "seek"    "cancer"   "hussein"
+##  [4,] "search"   "afghan"    "pentagon"   "help"    "iraqs"    "powell" 
+##  [5,] "victims"  "milosevic" "increase"   "prison"  "files"    "arab"   
+##  [6,] "cities"   "least"     "shifts"     "cells"   "sept"     "signs"  
+##  [7,] "disaster" "numbers"   "forces"     "cost"    "cut"      "likely" 
+##  [8,] "form"     "standoff"  "jury"       "islamic" "show"     "hopes"  
+##  [9,] "halt"     "peru"      "armed"      "cell"    "faces"    "raid"   
+## [10,] "gun"      "sites"     "challenges" "stem"    "officers" "behind" 
+##       Topic 12     Topic 13   Topic 14    Topic 15   Topic 16    
+##  [1,] "cia"        "israel"   "leader"    "battle"   "911"       
+##  [2,] "sees"       "take"     "may"       "talks"    "washington"
+##  [3,] "office"     "gaza"     "hospitals" "troops"   "bushs"     
+##  [4,] "region"     "ties"     "russians"  "israelis" "life"      
+##  [5,] "evidence"   "cabinet"  "used"      "sports"   "future"    
+##  [6,] "return"     "call"     "suggests"  "doubts"   "issue"     
+##  [7,] "foes"       "control"  "gulf"      "body"     "marines"   
+##  [8,] "need"       "overhaul" "status"    "quit"     "killings"  
+##  [9,] "technology" "pullout"  "embrace"   "alliance" "meet"      
+## [10,] "rumsfeld"   "primary"  "cited"     "begin"    "governor"  
+##       Topic 17        Topic 18    Topic 19    Topic 20   Topic 21  
+##  [1,] "nation"        "president" "baghdad"   "seen"     "race"    
+##  [2,] "challenged"    "democrats" "officials" "crime"    "time"    
+##  [3,] "qaeda"         "testing"   "top"       "states"   "congress"
+##  [4,] "taliban"       "rise"      "north"     "role"     "first"   
+##  [5,] "playoffs"      "facing"    "korea"     "wall"     "nato"    
+##  [6,] "kabul"         "reno"      "strike"    "base"     "gives"   
+##  [7,] "investigation" "abuse"     "rises"     "approves" "violence"
+##  [8,] "front"         "audit"     "toll"      "found"    "job"     
+##  [9,] "lead"          "costs"     "shiite"    "data"     "way"     
+## [10,] "giants"        "firm"      "clues"     "makes"    "calm"    
+##       Topic 22   Topic 23   Topic 24  Topic 25      Topic 26    
+##  [1,] "kill"     "world"    "set"     "killing"     "news"      
+##  [2,] "two"      "baseball" "fight"   "afghanistan" "dole"      
+##  [3,] "steps"    "series"   "death"   "tough"       "analysis"  
+##  [4,] "push"     "security" "seeking" "kills"       "political" 
+##  [5,] "fears"    "win"      "despite" "suicide"     "spy"       
+##  [6,] "parties"  "delay"    "backs"   "bomber"      "british"   
+##  [7,] "hearing"  "officer"  "gain"    "limits"      "republican"
+##  [8,] "huge"     "domestic" "little"  "former"      "hearings"  
+##  [9,] "career"   "joins"    "citing"  "rule"        "senator"   
+## [10,] "hospital" "message"  "turmoil" "killed"      "cases"     
+##       Topic 27   Topic 28      Topic 29   Topic 30  Topic 31   
+##  [1,] "vote"     "leaders"     "panel"    "china"   "plan"     
+##  [2,] "court"    "army"        "aide"     "goes"    "chief"    
+##  [3,] "force"    "palestinian" "urges"    "allies"  "microsoft"
+##  [4,] "strategy" "tied"        "rebel"    "capital" "judge"    
+##  [5,] "rules"    "bin"         "pressure" "grip"    "raises"   
+##  [6,] "defense"  "laden"       "sets"     "ground"  "target"   
+##  [7,] "split"    "path"        "funds"    "using"   "aiding"   
+##  [8,] "missile"  "put"         "agency"   "bosnia"  "attacking"
+##  [9,] "counting" "bar"         "limit"    "cuts"    "turns"    
+## [10,] "last"     "hamas"       "rejects"  "press"   "led"      
+##       Topic 32        Topic 33   Topic 34   Topic 35      Topic 36   
+##  [1,] "iraqi"         "case"     "back"     "iraq"        "europe"   
+##  [2,] "billion"       "big"      "doctors"  "threats"     "ready"    
+##  [3,] "now"           "deal"     "record"   "responses"   "hope"     
+##  [4,] "business"      "enron"    "across"   "peace"       "terrorism"
+##  [5,] "keep"          "day"      "concerns" "falls"       "blair"    
+##  [6,] "international" "ethics"   "saudis"   "missiles"    "right"    
+##  [7,] "post"          "near"     "moscow"   "green"       "raise"    
+##  [8,] "serbs"         "gingrich" "step"     "must"        "senators" 
+##  [9,] "ads"           "syria"    "shock"    "inspections" "work"     
+## [10,] "announces"     "creates"  "saudi"    "critical"    "merger"   
+##       Topic 37   Topic 38    Topic 39   Topic 40       Topic 41  
+##  [1,] "find"     "politics"  "overview" "terror"       "campaign"
+##  [2,] "final"    "finds"     "aid"      "said"         "2000"    
+##  [3,] "old"      "south"     "system"   "ban"          "gore"    
+##  [4,] "ends"     "questions" "public"   "team"         "finance" 
+##  [5,] "official" "poll"      "starts"   "charges"      "africa"  
+##  [6,] "streets"  "issues"    "abroad"   "intelligence" "hit"     
+##  [7,] "races"    "choice"    "asks"     "puts"         "safe"    
+##  [8,] "sniper"   "carolina"  "coach"    "star"         "memo"    
+##  [9,] "best"     "buchanan"  "charged"  "penalty"      "cheneys" 
+## [10,] "ballot"   "census"    "moves"    "linked"       "sub"     
+##       Topic 42       Topic 43   Topic 44   Topic 45  Topic 46   Topic 47  
+##  [1,] "bush"         "war"      "one"      "power"   "end"      "election"
+##  [2,] "attack"       "drugs"    "nuclear"  "tobacco" "russia"   "leaves"  
+##  [3,] "police"       "town"     "fighting" "market"  "chinese"  "next"    
+##  [4,] "dead"         "early"    "bomb"     "trail"   "india"    "line"    
+##  [5,] "kerry"        "industry" "blast"    "takes"   "pakistan" "season"  
+##  [6,] "aftereffects" "avoid"    "kills"    "place"   "imf"      "giuliani"
+##  [7,] "americans"    "sars"     "start"    "site"    "gold"     "millions"
+##  [8,] "drive"        "school"   "olympics" "lost"    "shadow"   "risks"   
+##  [9,] "shot"         "family"   "putin"    "general" "agree"    "flee"    
+## [10,] "foreign"      "oil"      "stall"    "markets" "exchief"  "tribunal"
+##       Topic 48  Topic 49     Topic 50    Topic 51  Topic 52  Topic 53   
+##  [1,] "house"   "crisis"     "trial"     "die"     "years"   "iran"     
+##  [2,] "white"   "balkans"    "kosovo"    "fall"    "gis"     "pay"      
+##  [3,] "left"    "seeks"      "change"    "study"   "mexico"  "suspect"  
+##  [4,] "texas"   "party"      "challenge" "disease" "wins"    "struggle" 
+##  [5,] "helps"   "government" "key"       "high"    "victory" "group"    
+##  [6,] "murder"  "sharon"     "fails"     "ill"     "yankees" "nations"  
+##  [7,] "journal" "elections"  "accused"   "allow"   "game"    "cleric"   
+##  [8,] "vast"    "costs"      "drop"      "knicks"  "fda"     "million"  
+##  [9,] "asia"    "company"    "won"       "risk"    "opens"   "gains"    
+## [10,] "charge"  "reviewing"  "agree"     "cause"   "hold"    "sanctions"
+##       Topic 54    Topic 55  Topic 56  Topic 57   Topic 58       Topic 59  
+##  [1,] "bombing"   "debate"  "bill"    "policy"   "bank"         "report"  
+##  [2,] "still"     "major"   "use"     "gets"     "palestinians" "special" 
+##  [3,] "aides"     "economy" "move"    "man"      "arafat"       "many"    
+##  [4,] "stocks"    "warning" "bombs"   "get"      "west"         "japan"   
+##  [5,] "verdict"   "open"    "chechen" "guilty"   "killed"       "children"
+##  [6,] "investors" "secret"  "shows"   "station"  "israeli"      "term"    
+##  [7,] "days"      "seat"    "diallo"  "federal"  "bombings"     "korean"  
+##  [8,] "plot"      "problem" "food"    "backing"  "conflict"     "second"  
+##  [9,] "fronts"    "share"   "plea"    "deadline" "east"         "shooting"
+## [10,] "slide"     "hmo"     "stock"   "farewell" "raids"        "dont"    
+##       Topic 60
+##  [1,] "city"  
+##  [2,] "iraqis"
+##  [3,] "rebels"
+##  [4,] "arms"  
+##  [5,] "shift" 
+##  [6,] "mets"  
+##  [7,] "scene" 
+##  [8,] "going" 
+##  [9,] "bold"  
+## [10,] "men"
+```
+
+```r
+
+#data("AssociatedPress", package = "topicmodels")
+#lda = LDA(AssociatedPress[1:1000,], control = list(alpha = 0.1), k = 20)
+#lda_inf = posterior(lda, AssociatedPress[21:30,])
 ```
 

@@ -16,7 +16,7 @@ library(RTextTools)
 
 ```{r warning=FALSE}
 # Code adapted from Collingwood and Jurka
-
+# see here: http://www.rtexttools.com/1/post/2012/02/rtexttools-short-course-materials.html
 # READ THE CSV DATA from the RTextTools package
 # Note that RTextTools has many dependencies, but Collingwood & Jurka [wisely] chose to keep all the dependencies R-friendly (read, no Java that I know of).
 data(NYTimes)
@@ -41,15 +41,15 @@ dim(NYTimes) #Check the dimensions, rows and columns
 # we don't have that much data, so we're going to keep it all
 # sample_size = 500
 sample_size = num_documents
-NYT_sample <- NYTimes[sample(1:num_documents,size=sample_size,replace=FALSE),]
+NYT_sample = NYTimes[sample(1:num_documents,size=sample_size,replace=FALSE),]
 
 out_data = data.frame(NYT_sample$Topic.Code, NYT_sample$Title)
-write.csv(out_data, 'nyt_title_data.csv', row.names=F)
+write.csv(out_data, '../data/nyt_title_data.csv', row.names=F)
 
 # CREATE A TERM-DOCUMENT MATRIX THAT REPRESENTS WORD FREQUENCIES IN EACH DOCUMENT
 # WE WILL TRAIN ON THE Title COLUMNS
-#NYT_dtm <- create_matrix(data.frame(NYT_sample$Title,NYT_sample$Subject), 
-NYT_dtm <- create_matrix(as.vector(NYT_sample$Title), 
+#NYT_dtm = create_matrix(data.frame(NYT_sample$Title,NYT_sample$Subject), 
+NYT_dtm = create_matrix(as.vector(NYT_sample$Title), 
                          language="english", 
                          removeNumbers=TRUE, 
                          stemWords=TRUE, 
@@ -64,7 +64,7 @@ NYT_dtm # Sparse Matrix object
 train_n = round(sample_size * 0.8)
 test_n = round(sample_size * 0.2)
 
-corpus <- create_container(NYT_dtm,
+corpus = create_container(NYT_dtm,
                         NYT_sample$Topic.Code,
                         trainSize=1:train_n,
                         testSize=(train_n+1):sample_size,
@@ -75,9 +75,9 @@ paste(NYT_sample[1,]$Title) # original data
 corpus@column_names[corpus@training_matrix[1]@ja] # preprocessed data
 
 # TRAIN MODELS
-models <- train_models(corpus, algorithms=c("SVM","MAXENT"))
-results <- classify_models(corpus, models)
-analytics <- create_analytics(corpus, results)
+models = train_models(corpus, algorithms=c("SVM","MAXENT"))
+results = classify_models(corpus, models)
+analytics = create_analytics(corpus, results)
 
 nyt_codes = read.csv("../data/nytimes_codes.csv")
 test_start_index = num_documents - train_n
@@ -109,14 +109,14 @@ analytics@algorithm_summary
 ```
 
 ```{r warning=FALSE, fig.show='asis'}
-x <- as.character(rownames(analytics@algorithm_summary))[-20]
-y <- analytics@algorithm_summary$SVM_RECALL[-20]
+x = as.character(rownames(analytics@algorithm_summary))[-20]
+y = analytics@algorithm_summary$SVM_RECALL[-20]
 plot(x, y, type="l", lwd=3, main="Support Vector Machine Topic Accuracy", ylab="Recall Accuracy", xlab="Topic")
 abline(h=.75, lwd=2, col="maroon")
 text(x, y, adj=1.2)
 
-x <- as.character(rownames(analytics@algorithm_summary))[-20]
-y <- analytics@algorithm_summary$MAXENTROPY_RECALL[-20]
+x = as.character(rownames(analytics@algorithm_summary))[-20]
+y = analytics@algorithm_summary$MAXENTROPY_RECALL[-20]
 plot(x, y, type="l", lwd=3, main="Maximum Entropy Topic Accuracy", ylab="Recall Accuracy", xlab="Topic")
 abline(h=.75, lwd=2, col="maroon")
 text(x, y, adj=1.2)
@@ -128,21 +128,26 @@ text(x, y, adj=1.2)
 library(topicmodels)
 
 #term frequency vectors, not tf-idf vectors
-n_topics = 20
-NYT_dtm <- create_matrix(as.vector(NYT_sample$Title), 
+n_topics = 60
+NYT_dtm = create_matrix(as.vector(NYT_sample$Title), 
                          language="english", 
                          removeNumbers=FALSE, 
                          stemWords=FALSE, #only because they are short 
                          weighting=weightTf)
 
-rowTotals <- apply(NYT_dtm , 1, sum)
-NYT_dtm_full   <- NYT_dtm[rowTotals> 0]  
+rowTotals = apply(NYT_dtm , 1, sum)
+NYT_dtm_full  = NYT_dtm[rowTotals> 0]  
 
-k <- length(unique(NYT_sample$Topic.Code))
-lda <- LDA(NYT_dtm_full, k)
+#k = length(unique(NYT_sample$Topic.Code))
+lda = LDA(NYT_dtm_full, n_topics)
 
+topic = topics(lda, 1)
+topic[1]
 
-data("AssociatedPress", package = "topicmodels")
-lda <- LDA(AssociatedPress[1:1000,], control = list(alpha = 0.1), k = 20)
-lda_inf <- posterior(lda, AssociatedPress[21:30,])
+terms = terms(lda, 10)
+terms
+
+#data("AssociatedPress", package = "topicmodels")
+#lda = LDA(AssociatedPress[1:1000,], control = list(alpha = 0.1), k = 20)
+#lda_inf = posterior(lda, AssociatedPress[21:30,])
 ```

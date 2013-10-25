@@ -1720,7 +1720,10 @@ In&nbsp;[1]:
 
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s">&#39;/Users/rweiss/Dropbox/presentations/MozFest2013/data/&#39;</span><span class="p">)</span>
 
-<span class="n">nyt</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;../data/nyt_title_data.csv&#39;</span><span class="p">)</span>
+<span class="c">#note that if you generated this from R, you will need to delete the row</span>
+<span class="c">#&quot;NYT_sample.Topic.Code&quot;,&quot;NYT_sample.Title&quot;</span>
+<span class="c">#from the top of the file.</span>
+<span class="n">nyt</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;../data/nyt_title_data.csv&#39;</span><span class="p">)</span> <span class="c"># check the structure of this file!</span>
 <span class="n">nyt_data</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">nyt_labels</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">csv_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">nyt</span><span class="p">)</span>
@@ -1770,10 +1773,10 @@ In&nbsp;[1]:
 <pre>
 The training set size for this classifier is 1621
 
-Example string: Police to Seize Cars Of People Accused Of Drunken Driving
-Preprocessed string: police to seize cars of people accused of drunken driving
-Tokenized string:[u&apos;Police&apos;, u&apos;to&apos;, u&apos;Seize&apos;, u&apos;Cars&apos;, u&apos;Of&apos;, u&apos;People&apos;, u&apos;Accused&apos;, u&apos;Of&apos;, u&apos;Drunken&apos;, u&apos;Driving&apos;]
-N-gram data string:[u&apos;police&apos;, u&apos;seize&apos;, u&apos;cars&apos;, u&apos;people&apos;, u&apos;accused&apos;, u&apos;drunken&apos;, u&apos;driving&apos;, u&apos;police seize&apos;, u&apos;seize cars&apos;, u&apos;cars people&apos;, u&apos;people accused&apos;, u&apos;accused drunken&apos;, u&apos;drunken driving&apos;]
+Example string: Dole Courts Democrats
+Preprocessed string: dole courts democrats
+Tokenized string:[u&apos;Dole&apos;, u&apos;Courts&apos;, u&apos;Democrats&apos;]
+N-gram data string:[u&apos;dole&apos;, u&apos;courts&apos;, u&apos;democrats&apos;, u&apos;dole courts&apos;, u&apos;courts democrats&apos;]
 
 
 
@@ -1826,33 +1829,33 @@ In&nbsp;[2]:
 <pre>
 MODEL: Multinomial Naive Bayes
 
-The precision for this classifier is 0.691841627658
-The recall for this classifier is 0.571428571429
-The f1 for this classifier is 0.524504123039
-The accuracy for this classifier is 0.571428571429
+The precision for this classifier is 0.678610380886
+The recall for this classifier is 0.549165120594
+The f1 for this classifier is 0.506785046956
+The accuracy for this classifier is 0.549165120594
 
 Here is the classification report:
              precision    recall  f1-score   support
 
-          3       0.90      0.19      0.31        48
-         12       1.00      0.06      0.11        34
-         15       0.83      0.12      0.21        41
-         16       0.64      0.55      0.59       111
-         19       0.47      0.90      0.62       172
-         20       0.75      0.72      0.74        97
-         29       1.00      0.19      0.33        36
+          3       1.00      0.23      0.38        47
+         12       0.75      0.08      0.15        37
+         15       1.00      0.10      0.19        39
+         16       0.59      0.56      0.58       112
+         19       0.46      0.88      0.60       162
+         20       0.70      0.64      0.67        99
+         29       1.00      0.21      0.35        43
 
-avg / total       0.69      0.57      0.52       539
+avg / total       0.68      0.55      0.51       539
 
 
 Here is the confusion matrix:
-[[  9   0   0   7  25   7   0]
- [  0   2   0   3  26   3   0]
- [  1   0   5   4  27   4   0]
- [  0   0   0  61  45   5   0]
- [  0   0   0  16 154   2   0]
- [  0   0   1   3  23  70   0]
- [  0   0   0   1  26   2   7]]
+[[ 11   0   0   5  24   7   0]
+ [  0   3   0   5  24   5   0]
+ [  0   0   4   4  26   5   0]
+ [  0   1   0  63  44   4   0]
+ [  0   0   0  18 143   1   0]
+ [  0   0   0   8  28  63   0]
+ [  0   0   0   4  25   5   9]]
 
 </pre>
 </div>
@@ -1891,26 +1894,26 @@ In&nbsp;[3]:
 <div class="box-flex1 output_subarea output_stream output_stdout">
 <pre>
 
+The top 10 most informative features for topic code 20: 
+study hospitals aids medicare cancer health tobacco care drug new
+
+The top 10 most informative features for topic code 29: 
+special special report new drug sniper suspect report crime police case
+
 The top 10 most informative features for topic code 3: 
-tobacco costs drugs cancer doctors medicare health care new drug
-
-The top 10 most informative features for topic code 19: 
-murder york new york gun officer suspect new police crime case
-
-The top 10 most informative features for topic code 15: 
-big new market stocks pay wall chief enron deal microsoft
+market chief wall new billion big stocks enron deal microsoft
 
 The top 10 most informative features for topic code 16: 
-military overview baghdad 11 challenged nation challenged bush nation war iraq
+iraqi military baghdad 11 bush challenged nation challenged nation war iraq
+
+The top 10 most informative features for topic code 19: 
+russia japan war mideast russian india leader new israel china
+
+The top 10 most informative features for topic code 19: 
+2000 campaign 2000 clinton testing testing president politics bush democrats campaign president
 
 The top 10 most informative features for topic code 20: 
-overview russian india crisis arafat japan leader new israel china
-
-The top 10 most informative features for topic code 3: 
-senate testing president 2000 campaign 2000 politics clinton bush democrats president campaign
-
-The top 10 most informative features for topic code 15: 
-win tennis bowl playoffs world series world yankees game series baseball
+victory bowl knicks win world yankees playoffs series game baseball
 
 </pre>
 </div>
@@ -1959,33 +1962,33 @@ In&nbsp;[4]:
 <pre>
 MODEL: Linear SVC
 
-The precision for this classifier is 0.653750401665
-The recall for this classifier is 0.649350649351
-The f1 for this classifier is 0.64384871703
-The accuracy for this classifier is 0.649350649351
+The precision for this classifier is 0.63396261297
+The recall for this classifier is 0.623376623377
+The f1 for this classifier is 0.620561226142
+The accuracy for this classifier is 0.623376623377
 
 Here is the classification report:
              precision    recall  f1-score   support
 
-          3       0.80      0.50      0.62        48
-         12       0.44      0.44      0.44        34
-         15       0.41      0.32      0.36        41
-         16       0.73      0.62      0.67       111
-         19       0.63      0.78      0.70       172
-         20       0.70      0.76      0.73        97
-         29       0.69      0.56      0.62        36
+          3       0.69      0.47      0.56        47
+         12       0.43      0.49      0.46        37
+         15       0.68      0.44      0.53        39
+         16       0.60      0.59      0.59       112
+         19       0.60      0.77      0.67       162
+         20       0.72      0.66      0.69        99
+         29       0.73      0.56      0.63        43
 
-avg / total       0.65      0.65      0.64       539
+avg / total       0.63      0.62      0.62       539
 
 
 Here is the confusion matrix:
-[[ 24   1   4   1   9   9   0]
- [  2  15   2   1   8   3   3]
- [  2   6  13   1  12   6   1]
- [  1   5   3  69  27   6   0]
- [  1   5   4  18 135   6   3]
- [  0   2   2   4  13  74   2]
- [  0   0   4   1  10   1  20]]
+[[ 22   5   1   6   7   5   1]
+ [  1  18   1   2  10   2   3]
+ [  1   3  17   1  10   6   1]
+ [  1   7   3  66  28   6   1]
+ [  4   5   2  23 124   4   0]
+ [  3   2   1   9  16  65   3]
+ [  0   2   0   3  12   2  24]]
 
 </pre>
 </div>
@@ -2024,26 +2027,26 @@ In&nbsp;[5]:
 <div class="box-flex1 output_subarea output_stream output_stdout">
 <pre>
 
+The top 10 most informative features for topic code 20: 
+schiavo tissue baby scientists fat cancer gene medicare hospitals tobacco
+
+The top 10 most informative features for topic code 29: 
+fallen limiting charged police rampage suspect murder crime sniper gun
+
 The top 10 most informative features for topic code 3: 
-driving care scientists cancer fat doctors health drug tobacco medicare
-
-The top 10 most informative features for topic code 19: 
-fallen prison narcotics diallo police officer guns robbery gun crime
-
-The top 10 most informative features for topic code 15: 
-firms morgan workers corporations pricing market deal stocks microsoft enron
+profit workers merger response storm pricing deal stocks enron microsoft
 
 The top 10 most informative features for topic code 16: 
-generals abuse hussein detainees rumsfeld troops missile nato 11 iraq
+base generals afghanistan navy force hussein nation nato 11 iraq
+
+The top 10 most informative features for topic code 19: 
+pakistan india russian japan europe china africa mideast israel chinese
+
+The top 10 most informative features for topic code 19: 
+impeachment whitewater race gingrich lewinsky senate president politics campaign democrats
 
 The top 10 most informative features for topic code 20: 
-pakistan china milosevic europe chinese india japan mideast israel russian
-
-The top 10 most informative features for topic code 3: 
-impeachment whitewater ethics gingrich census president clinton politics democrats campaign
-
-The top 10 most informative features for topic code 15: 
-best tennis bowl knicks yankees match game coach baseball series
+bowl armstrong match knicks playoffs play yankees series baseball game
 
 </pre>
 </div>
@@ -2092,33 +2095,33 @@ In&nbsp;[6]:
 <pre>
 MODEL: Maximum Entropy
 
-The precision for this classifier is 0.654841081319
-The recall for this classifier is 0.584415584416
-The f1 for this classifier is 0.549282524728
-The accuracy for this classifier is 0.584415584416
+The precision for this classifier is 0.654004346593
+The recall for this classifier is 0.549165120594
+The f1 for this classifier is 0.524774091511
+The accuracy for this classifier is 0.549165120594
 
 Here is the classification report:
              precision    recall  f1-score   support
 
-          3       0.85      0.23      0.36        48
-         12       0.57      0.12      0.20        34
-         15       0.73      0.20      0.31        41
-         16       0.67      0.56      0.61       111
-         19       0.49      0.89      0.63       172
-         20       0.75      0.71      0.73        97
-         29       0.89      0.22      0.36        36
+          3       0.94      0.32      0.48        47
+         12       0.67      0.16      0.26        37
+         15       0.71      0.13      0.22        39
+         16       0.64      0.54      0.59       112
+         19       0.44      0.85      0.58       162
+         20       0.72      0.60      0.65        99
+         29       1.00      0.28      0.44        43
 
-avg / total       0.65      0.58      0.55       539
+avg / total       0.65      0.55      0.52       539
 
 
 Here is the confusion matrix:
-[[ 11   0   1   3  26   7   0]
- [  1   4   0   4  22   3   0]
- [  1   2   8   1  25   4   0]
- [  0   0   0  62  43   6   0]
- [  0   0   0  17 153   2   0]
- [  0   1   2   4  20  69   1]
- [  0   0   0   1  26   1   8]]
+[[ 15   0   0   4  25   3   0]
+ [  1   6   0   3  24   3   0]
+ [  0   1   5   1  30   2   0]
+ [  0   2   0  61  43   6   0]
+ [  0   0   1  19 138   4   0]
+ [  0   0   1   7  32  59   0]
+ [  0   0   0   1  25   5  12]]
 
 </pre>
 </div>
@@ -2157,26 +2160,26 @@ In&nbsp;[7]:
 <div class="box-flex1 output_subarea output_stream output_stdout">
 <pre>
 
+The top 10 most informative features for topic code 20: 
+study scientists aids health hospitals medicare cancer care drug tobacco
+
+The top 10 most informative features for topic code 29: 
+murder mexico officer drug gun suspect sniper police case crime
+
 The top 10 most informative features for topic code 3: 
-hospitals scientists drugs tobacco cancer doctors medicare health care drug
-
-The top 10 most informative features for topic code 19: 
-officers prison murder robbery suspect officer gun case police crime
-
-The top 10 most informative features for topic code 15: 
-big investors pay wall market chief stocks deal enron microsoft
+big chief wall pay market billion stocks deal enron microsoft
 
 The top 10 most informative features for topic code 16: 
-missile challenged troops afghanistan nation challenged nato nation war 11 iraq
+challenged iraqis nato force arms nation challenged war nation 11 iraq
+
+The top 10 most informative features for topic code 19: 
+europe leader russia chinese japan russian mideast india israel china
+
+The top 10 most informative features for topic code 19: 
+2000 dole clinton bush race senate politics president democrats campaign
 
 The top 10 most informative features for topic code 20: 
-chinese israelis arafat leader mideast india japan china russian israel
-
-The top 10 most informative features for topic code 3: 
-testing president 2000 race senate bush politics clinton president democrats campaign
-
-The top 10 most informative features for topic code 15: 
-best match knicks playoffs tennis bowl yankees game series baseball
+team play armstrong bowl knicks yankees playoffs series game baseball
 
 </pre>
 </div>
@@ -2195,7 +2198,7 @@ best match knicks playoffs tennis bowl yankees game series baseball
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[9]:
+In&nbsp;[8]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">gensim</span> <span class="kn">import</span> <span class="n">corpora</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">similarities</span>
@@ -2250,74 +2253,84 @@ In&nbsp;[9]:
 <div class="hbox output_area"><div class="prompt"></div>
 <div class="box-flex1 output_subarea output_stream output_stdout">
 <pre>
-Top 10 terms for topic #0: cites, force, falluja, not,, memories, troops, man, vote, attack, beach
-Top 10 terms for topic #1: mind, drive?, abducts, legend, jolted, another, 40, microsoft, judge, path
-Top 10 terms for topic #2: born, setting, rally, pullout, diplomacy, homes, split, baghdad, press, allies
-Top 10 terms for topic #3: iraqi, blasts, next, capital;, war:, all-around, volunteer;, strain, unburied, viacom
-Top 10 terms for topic #4: york, crack, mccain,, ballot, disneyland, poll,, gangland, innocent, new, nazis
-Top 10 terms for topic #5: lawmakers, tone, disaster, recruiting, mets, rebel, still, gunfire, city, end
-Top 10 terms for topic #6: uses, iraq, strife, unforeseen,, algeria, sledgehammer, eases, chechnya, sarajevo, hints
-Top 10 terms for topic #7: fire, drafting, deeply, divides, strip, orders, charter, german, weakens, vs.
-Top 10 terms for topic #8: china&apos;s, flows, clans, unruly, gaza,, compete, challenged, brain, void, cash
-Top 10 terms for topic #9: ban, china, doctors&apos;, violation, angola, diamond, concerns, arms, key, cited
-Top 10 terms for topic #10: wins, israel, repay, jordanian, assist, meeting, saved, iraq,, millions, puts
-Top 10 terms for topic #11: fled, steps, feeling, rules, economy, see, leaders, court, war, effort,
-Top 10 terms for topic #12: fire:, president, defeats, irish, secret, parents, companies, meeting, court, 2
-Top 10 terms for topic #13: plans, weakened, shift,, swing, mixed, region, afghan, manifesto, communists, new,
-Top 10 terms for topic #14: entrepreneurs,, ambitious, long,, announces, f.b.i.,, nation, europe, face, marines, little
-Top 10 terms for topic #15: threats, decisions, bush,, behind, hispanics, makes, h.m.o., white, back, big
-Top 10 terms for topic #16: kabul, researchers, came, chaos, western, opens, reprimands, punishes, stop, abuse
-Top 10 terms for topic #17: 20, months, changes, time, times, aids, public, oil, violence, friends
-Top 10 terms for topic #18: f.d.a., insurance, tobacco, debate, 4, many, egypt, surprised, town, keep
-Top 10 terms for topic #19: criminal, eve, takes, help,, measures, report:, embattled, eavesdropping, cost, seek
-Top 10 terms for topic #20: investigation;, peru:, outlook;, rescue, reviewing, dean, arrests, cleric, path, hopes
-Top 10 terms for topic #21: opinion, bold, becomes, looking, shape, liability, counts, surprised, bombing, oath
-Top 10 terms for topic #22: star, tax, palestinians, aid, linked, russia&apos;s, victims, firm, ills, computer
-Top 10 terms for topic #23: political, straight, detainee, yankees, woods, masters, 4th, shift, spans, spectrum
-Top 10 terms for topic #24: shake-up, russia:, opener, hold, he&apos;ll, security;, yeltsin, overview;, takes, shaky,
-Top 10 terms for topic #25: defense, cite, confirms, promote, seat, yanks, fighting, office, remains, enron
-Top 10 terms for topic #26: premier, advance, races, system, health, way, deaths, serbs&apos;, assassinated;, appear
-Top 10 terms for topic #27: wall, halt, named, turn, weakens, end, left, starts, stalling, bills,
-Top 10 terms for topic #28: defines, appears, phase, diversity, tolerance, net,, accuse, return, tough, held
-Top 10 terms for topic #29: revel, ex-settlements, gazans, sift, contest, candidates, spin, unbundling, tribunal, challenge
-Top 10 terms for topic #30: rebuilding, share, u.s., terekhovo, iraqis, bush, purchasing, journal;, acquisition, old
-Top 10 terms for topic #31: officially,, &apos;borat&apos;, fun, iron, one-child, policy,, rethinks, signal, buchanan, pessimistic
-Top 10 terms for topic #32: international, business;, revives, away, devils, cup, drop, passes, resistance, expand
-Top 10 terms for topic #33: 2000, campaign:, primary, government, penalty, led, hun, ruler, cambodia&apos;s, enjoying
-Top 10 terms for topic #34: wealth, claims, later,, al, qaeda, let, convicted, recount, sudan?, overview;
-Top 10 terms for topic #35: hijackers, seeks, disputes, block, demand, village, blair, deaths, measure, g.o.p
-Top 10 terms for topic #36: power, serbs, fatigue, sought, winning, u.s.,, open, 9/11, war, future
-Top 10 terms for topic #37: green, angry, boom, &apos;05?, activity, designs, street&apos;s, berets;, berets, 12
-Top 10 terms for topic #38: plaintiff, visitors, audit, tighter, fragmented, veto, finds, security, campaigns, microsoft:
-Top 10 terms for topic #39: british, weapons, bombing, bases, term, risks, tour, finance, militia, &apos;96
-Top 10 terms for topic #40: history, counsel&apos;s, weigh, turkey, flouts, backdoor,, boy, sanctions, fall, serbs
-Top 10 terms for topic #41: aide, 9, polls, raising, said, chirac, state, break, top, provisional
-Top 10 terms for topic #42: search, president&apos;s, hunt, gene, years,, moved, operations;, undermine, covert, africa
-Top 10 terms for topic #43: creating, speaker, year&apos;s, down:, career;, arlington, &apos;unknowns&apos;, science:, yields, pakistanis
-Top 10 terms for topic #44: carry, iraq&apos;s, disclosed, lung, kosovo, ready, assessment, delay, aides, war,
-Top 10 terms for topic #45: construction, racketeering, king, tied, leave, city, collected, jordanian, house, white
-Top 10 terms for topic #46: sale, skates, investment,, u.s., asian, seekers, overseer, fierce, family, islamic
-Top 10 terms for topic #47: desperate, yields, limits, rebels, tied,, rue, hands, law, judges, police
-Top 10 terms for topic #48: set, house, rule, ethics, stump, retreat,, pain, rise, campaign, war
-Top 10 terms for topic #49: aids, go, defector, reforms, families, road, 39, rocky, invited, biological
-Top 10 terms for topic #50: win, soviet, final, gear, status, insiders&apos;, board, spy, biological, warns
-Top 10 terms for topic #51: likely, stanley, authority, troops;, 7, try, cleric, limit, view, 11
-Top 10 terms for topic #52: urged, raise, investors, faith, flow, mexico, states, clinton, wear, sleeve
-Top 10 terms for topic #53: africa:, rift, overview;, message, mideast, aide, set, bares, dissenting, frenzy
-Top 10 terms for topic #54: one, president:, testing, overview;, lobbyist,, tribunals, playoffs;, alter, giants, panel
-Top 10 terms for topic #55: balance, hours;, four, president:, testing, others, details, democrats, stalling, bills,
-Top 10 terms for topic #56: backs, military, killing, liberia, cabinet, hit, serb, israel, bosnia, battle:
-Top 10 terms for topic #57: senate, links, republican, fellow, mississippian, vulnerable, appear, lott, agency, sell
-Top 10 terms for topic #58: pro, basketball;, clinton, leak, camp, nato, plotters&apos;, laden, bin, eavesdropping
-Top 10 terms for topic #59: sets, yeltsin, wish, wonderful, traveling, olympic, relief, time,, secrets, efforts
+Top 10 terms for topic #0: company, delays, reforms, money;, 6, whose, rights, giving, nazis, running
+Top 10 terms for topic #1: garden, he&apos;s, lavish, networks,, trade-off, scripts, head, plan, pentagon, hit
+Top 10 terms for topic #2: revival, now,, last,, guns,, killing,, chamber, tries, split, friends;, russians;
+Top 10 terms for topic #3: legal, beckons, best, resistance, won&apos;t, privileged, mexico&apos;s, presidency,, tilts, production
+Top 10 terms for topic #4: europe, r, entrepreneurs,, ambitious, moscow, tough, home,, said, call, one
+Top 10 terms for topic #5: pakistan, gathering, claimed, signs, raise, taliban;, supplying, hesitantly, ended, reviewing
+Top 10 terms for topic #6: gaining,, losing,, torricelli, take, super, beijing, bowl, two, find, bush&apos;s
+Top 10 terms for topic #7: terror, turmoil, must, shift, suspects, level, 2, vast, left, anguish
+Top 10 terms for topic #8: colombia, swing, justices, effort, holding, suspect, pledge, talks, peres, military
+Top 10 terms for topic #9: california;, title, balance, takes, governor, move, u.n., tough, hill&apos;s, seat-squirmer
+Top 10 terms for topic #10: syria, baseball;, afghanistan,, pushes, swiftly, sharon, report, halt, israel, ace
+Top 10 terms for topic #11: adoptions, rewarding, pause, recovery,, saudis, hundreds, diplomacy;, betrayed, laotians, mideast
+Top 10 terms for topic #12: sars, timetable, clash, hotel, aide, urges, close, iraq, bush, toronto
+Top 10 terms for topic #13: inside, care, business, planes, take, rebels, ill, mexico, town, war:
+Top 10 terms for topic #14: insiders, kerry, suspected, woman, bid, giuliani, describes, saudi, foster, court
+Top 10 terms for topic #15: aid, briefly, airstrike, zarqawi, survived, balks, numbers, bush, get, game
+Top 10 terms for topic #16: cardinals, choosy, loner,, series, world, region, short, blasts, control, feared,
+Top 10 terms for topic #17: fronts, disease, project, stretching,, sadly, lessons, excruciating, air, came, trial
+Top 10 terms for topic #18: alzheimer&apos;s, drugs, cover, treatments, emergency, program, streets, doctor&apos;s, many,, room,
+Top 10 terms for topic #19: weigh, documents, incentives, dissuade, gifts, bush, east, stay, leaves, trial
+Top 10 terms for topic #20: veto, resolution, pursue, islamic, shiite, leadership;, iraq,, northeast, back, g.o.p.
+Top 10 terms for topic #21: game, fear, c.i.a., sees, intelligence;, hindered, hindsight,, terror, tide, all-around
+Top 10 terms for topic #22: public, conservatives, protest, terrorism, amid, starts, tobacco, impasse, white, rules
+Top 10 terms for topic #23: arafat, fled, detainee, homes, mentally, heart, chechen, afghanistan, approves, money
+Top 10 terms for topic #24: iran, rivera, send, confession, star, deaths, spy, yankees, croatian&apos;s, scale
+Top 10 terms for topic #25: talks, defines, palestinians, german, vote, final, taliban, plan, war:, nation
+Top 10 terms for topic #26: international, business;, passes, opportunity, vows, expand, seek, sell, crime, asks
+Top 10 terms for topic #27: all,, treatment, crash, economic, executive, medicare, covering, goes, &apos;96;, plea
+Top 10 terms for topic #28: fall, coach, analysis;, news, charges, caught, (again), costly, near, feet
+Top 10 terms for topic #29: missile, chief, taiwan, forced, mccain, test, dole&apos;s, canceled, vote, unable
+Top 10 terms for topic #30: states, murder, shift,, 3, locked, sets, it&apos;s, backing, koreans, sites
+Top 10 terms for topic #31: middle, executives, twice, widowed, india,, scorned, sent, inquiry, (again), hand,
+Top 10 terms for topic #32: challenged:, nation, time,, insurance, efforts, sept., 11, keep, peace, panel
+Top 10 terms for topic #33: president:, testing, peace, overview;, israel, rehiring, ex-president, morgan, rises, hope
+Top 10 terms for topic #34: saudi, blast, high, 13, insurance, pact, government, costs, day, lowest
+Top 10 terms for topic #35: proposes, medicare, found, troops;, guilty, tighten, remains, set, crisis, case
+Top 10 terms for topic #36: search, baseball, 5, upsets, move, one, playoffs, bush, may, swiftly
+Top 10 terms for topic #37: responses:, threats, strategy, disease;, budget, rich, security;, presence, damage, toss
+Top 10 terms for topic #38: al, qaeda, witness, personal, let, $1, memo;, russia:, tour, bold
+Top 10 terms for topic #39: failure, benefit, cutback, cheney&apos;s, companies, drug, bush, slave, adopt, fund
+Top 10 terms for topic #40: military, losses, target, bars, cloning, ban, california&apos;s, clear, book,, novel
+Top 10 terms for topic #41: smoke, front;, role, battle:, vast, spin, fierce, contest, vote:, clear
+Top 10 terms for topic #42: life, he&apos;ll, court, dean&apos;s, reshape, faulted, contest, choice, falling, steps
+Top 10 terms for topic #43: toward, children, light, hurrying, warmth, aiding, russians, try, presents, missiles
+Top 10 terms for topic #44: surges, mode,, rightist, bolster, pick, york, attack, dies, new, cries
+Top 10 terms for topic #45: confinement, guantanamo,, interrogation, rebuilding, corporations, goldman, hurting, deal;, appears, iowa
+Top 10 terms for topic #46: tells, record, vow, israel, yankees, temper, leaders, runner, mile, working
+Top 10 terms for topic #47: points, arms, 10%, arbitration, approval, three, picked, woo, populist, f.d.a.
+Top 10 terms for topic #48: uneasiness, tigers, iraq, inflamed:, reconstruction;, repayment, fee, sees, worst, region
+Top 10 terms for topic #49: sosa, mcgwire, expert&apos;s, point, plan, blair, gains, caribbean, coverage, jet
+Top 10 terms for topic #50: 1998, resolve, base, campaign:, aids, family, foley, cleric, republicans, elections:
+Top 10 terms for topic #51: peace,, politics, crashes, hollywood, enclaves, cockfights, flourishing, war, die, u.s.,
+Top 10 terms for topic #52: green, cloning, bus, flaws, hubris, eccentric&apos;s, frenzy, defense, avoid, pro
+Top 10 terms for topic #53: giants, declares, fence, victory, paler, rosy, sometimes, investors,, forecasts, results
+Top 10 terms for topic #54: bridgeport, dispute, health, ballot, insurer, options, away, mccain,, crack, uninsured
+Top 10 terms for topic #55: time, milosevic, travel, savor, stalls, tuesdays:, clues, among, grants, africans
+Top 10 terms for topic #56: victims, texaco, democracy, batter, jews, using, back, nigerians, lurching, nafta
+Top 10 terms for topic #57: city, school, shaken, weapons, pills., sunscreen., spray., checklist, bug, camp:
+Top 10 terms for topic #58: g.i.&apos;s, counting, command, ways, east, marines, charter, john, changes, assailing
+Top 10 terms for topic #59: jordan, egypt, rape, brings, asian, rise, young, kabul, first, leader
 
 Which LDA topic maximally describes a document?
 
-Original document: Complex Web Of Madrid Plot Still Entangled
-Preprocessed document: [&apos;complex&apos;, &apos;web&apos;, &apos;madrid&apos;, &apos;plot&apos;, &apos;still&apos;, &apos;entangled&apos;]
-Matrix Market format: [(7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1)]
-Topic probability mixture: [(3, 0.57407952695455311), (5, 0.14517024123385933), (39, 0.1450359460973023)]
-Maximally probable topic: topic #3
+Original document: Yanks End Drought; Mets Fall in Opener
+Preprocessed document: [&apos;yanks&apos;, &apos;end&apos;, &apos;drought;&apos;, &apos;mets&apos;, &apos;fall&apos;, &apos;opener&apos;]
+Matrix Market format: [(3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1)]
+Topic probability mixture: [(19, 0.43120206027031704), (27, 0.14505309958538579), (28, 0.14521071520874509), (38, 0.14520079160221899)]
+Maximally probable topic: topic #19
+
+</pre>
+</div>
+</div>
+
+<div class="hbox output_area"><div class="prompt"></div>
+<div class="box-flex1 output_subarea output_stream output_stderr">
+<pre>
+/Users/rweiss/Library/Enthought/Canopy_64bit/User/lib/python2.7/site-packages/gensim-0.8.7-py2.7.egg/gensim/__init__.py:12: UserWarning: Module IPython was already imported from /Applications/Canopy.app/appdata/canopy-1.0.3.1262.macosx-x86_64/Canopy.app/Contents/lib/python2.7/site-packages/IPython/__init__.pyc, but /Users/rweiss/Library/Enthought/Canopy_64bit/User/lib/python2.7/site-packages/ipython-1.0.0-py2.7.egg is being added to sys.path
+  __version__ = __import__(&apos;pkg_resources&apos;).get_distribution(&apos;gensim&apos;).version
 
 </pre>
 </div>

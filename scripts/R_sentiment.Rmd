@@ -11,6 +11,7 @@ We're going to use a very small random sample of the very famous `sentiment pola
 ```{r warning=FALSE}
 library(plyr)
 library(reshape2)
+library(sentiment)
 ```
 
 
@@ -18,7 +19,6 @@ library(reshape2)
 ```{r warning=FALSE}
 #Using Tim Jurka's sentiment package
 #Code adapted from Collingwood and Jurka
-library(sentiment)
 setwd("/Users/rweiss/Dropbox/presentations/MozFest2013/data/")
 rt_neg = read.delim("rt-polaritydata/rt-polaritydata/rt-polarity.neg", header=F, quote="")
 rt_pos = read.delim("rt-polaritydata/rt-polaritydata/rt-polarity.pos", header=F, quote="")
@@ -36,7 +36,7 @@ reviews_sample <- reviews[sample(1:num_documents,size=sample_size,replace=FALSE)
 reviews_sample$content = as.character(reviews_sample$content)
 
 foo = data.frame(as.character(reviews_sample$label), as.character(reviews_sample$content))
-write.csv(reviews_sample$content, 'reviews_data.csv', row.names=F, col.names=F)
+write.csv(reviews_sample$content, '../data/reviews_data.csv', row.names=F)
 #let's save this so we can compare it against the SASA tool
 write.table(foo, '../sentiment_examples/reviews_sample.csv', col.names=c('label','content'), row.names=F, quote=F, sep="\t")
 

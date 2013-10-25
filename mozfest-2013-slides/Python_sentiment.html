@@ -1714,7 +1714,7 @@ In&nbsp;[1]:
 
 <span class="n">review_data</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">labels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-<span class="n">tsvfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;../sentiment_examples/reviews_sample.csv&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">tsvfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;../sentiment_examples/reviews_sample.csv&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="c"># take a look at what this .csv looks like and check the file structure</span>
 <span class="n">csv_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">tsvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">csv_reader</span><span class="p">:</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="p">{</span><span class="n">line</span><span class="p">[</span><span class="s">&#39;label&#39;</span><span class="p">]</span> <span class="p">:</span> <span class="n">line</span><span class="p">[</span><span class="s">&#39;content&#39;</span><span class="p">]}</span>
@@ -1771,7 +1771,7 @@ In&nbsp;[2]:
 <div class="cell border-box-sizing code_cell vbox">
 <div class="input hbox">
 <div class="prompt input_prompt">
-In&nbsp;[5]:
+In&nbsp;[3]:
 </div>
 <div class="input_area box-flex1">
 <div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
@@ -1801,8 +1801,8 @@ In&nbsp;[5]:
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">classified_reviews</span><span class="p">:</span>
     <span class="n">body</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     <span class="n">label</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-    <span class="n">body</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;iso-8859-1&#39;</span><span class="p">)</span>
-    <span class="n">body</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;iso-8859-1&#39;</span><span class="p">)</span> <span class="c"># this might not be the encoding of your data!</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span> <span class="c"># utf-8 is usually the best encoding to use</span>
     <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">label</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">body</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
@@ -1821,101 +1821,93 @@ In&nbsp;[5]:
 <div class="hbox output_area"><div class="prompt"></div>
 <div class="box-flex1 output_subarea output_stream output_stdout">
 <pre>
-classifying while hoffman&apos;s performance is great , the subject matter goes nowhere .
-classifying a bravura exercise in emptiness .
-classifying about as big a crowdpleaser as they possibly come .
-classifying van wilder has a built-in audience , but only among those who are drying out from spring break and are still unconcerned about what they ingest .
-classifying scorsese at his best makes gangster films that are equally lovely but also relentlessly brutal and brutally intelligent ; perdition , meanwhile , reads more like driving miss daisy than goodfellas .
-classifying a lean , deftly shot , well-acted , weirdly retro thriller that recalls a raft of &apos;60s and &apos;70s european-set spy pictures .
-classifying it treats women like idiots .
-classifying the level of maturity displayed by this 33-year-old first-time feature director is astonishing , considering her inexperience and her subject matter .
-classifying a tour de force of modern cinema .
-classifying apparently reassembled from the cutting-room floor of any given daytime soap .
-classifying an already thin story boils down to surviving invaders seeking an existent anti-virus . if only there were one for this kind of movie .
-classifying . . . an hour-and-a-half of inoffensive , unmemorable filler .
-classifying one of those rare , exhilarating cinematic delights that gets even better in hindsight , as you mull over its every nuance in your mind .
-classifying flawed but worthy look at life in u . s . relocation camps .
-classifying a fine effort , an interesting topic , some intriguing characters and a sad ending . certainly the big finish wasn&apos;t something galinsky and hawley could have planned for . . . but part of being a good documentarian is being there when the rope snaps .
-classifying fessenden has nurtured his metaphors at the expense of his narrative , but he does display an original talent .
-classifying an uninspired preachy and clich�d war film .
-classifying it&apos;s a very valuable film . . .
-classifying altogether , this is successful as a film , while at the same time being a most touching reconsideration of the familiar masterpiece .
-classifying does what a fine documentary does best : it extends a warm invitation into an unfamiliar world , then illuminates it fully and allows the larger implications of the journey to sink in unobtrusively .
-classifying miyazaki has created such a vibrant , colorful world , it&apos;s almost impossible not to be swept away by the sheer beauty of his images .
-classifying at 90 minutes this movie is short , but it feels much longer .
-classifying although it starts off so bad that you feel like running out screaming , it eventually works its way up to merely bad rather than painfully awful .
-classifying the plot has a number of holes , and at times it&apos;s simply baffling .
-classifying the kind of sense of humor that derives from a workman&apos;s grasp of pun and entendre and its attendant need to constantly draw attention to itself .
-classifying [sen&apos;s] soap opera-ish approach undermines his good intentions .
-classifying theology aside , why put someone who ultimately doesn&apos;t learn at the center of a kids&apos; story ?
-classifying the work of a filmmaker who has secrets buried at the heart of his story and knows how to take time revealing them . strange occurrences build in the mind of the viewer and take on extreme urgency .
-classifying this is one of those rare docs that paints a grand picture of an era and makes the journey feel like a party .
-classifying the balkans provide the obstacle course for the love of a good woman .
-classifying statham employs an accent that i think is supposed to be an attempt at hardass american but sometimes just lapses into unhidden british .
-classifying a rare and lightly entertaining look behind the curtain that separates comics from the people laughing in the crowd .
-classifying to the film&apos;s credit , the acting is fresh and unselfconscious , and munch is a marvel of reality versus sappy sentiment .
-classifying a frantic search for laughs , with a hit-to-miss ratio that doesn&apos;t exactly favour the audience .
-classifying an uplifting , near-masterpiece .
-classifying the movie is pretty funny now and then without in any way demeaning its subjects .
-classifying has a customarily jovial air but a deficit of flim-flam inventiveness .
-classifying high crimes steals so freely from other movies and combines enough disparate types of films that it can&apos;t help but engage an audience .
-classifying each story on its own could have been expanded and worked into a compelling single feature , but in its current incarnation , storytelling never quite gets over its rather lopsided conception .
-classifying there is no insight into the anguish of heidi&apos;s life -- only a depiction of pain , today&apos;s version of greek tragedy , the talk-show guest decrying her fate .
-classifying the film&apos;s best trick is the way that it treats conspiracy as a kind of political blair witch , a monstrous murk that haunts us precisely because it can never be seen .
-classifying i&apos;m not suggesting that you actually see it , unless you&apos;re the kind of person who has seen every wim wenders film of the &apos;70s .
-classifying a small gem of a movie that defies classification and is as thought-provoking as it is funny , scary and sad .
-classifying most impressive , though , is the film&apos;s open-ended finale that refuses to entirely close its characters&apos; emotional wounds .
-classifying it bites hard .
-classifying . . . jones , despite a definitely distinctive screen presence , just isn&apos;t able to muster for a movie that , its title notwithstanding , should have been a lot nastier if it wanted to fully capitalize on its lead&apos;s specific gifts .
-classifying a sentimental mess that never rings true .
-classifying don&apos;t plan on the perfect ending , but sweet home alabama hits the mark with critics who escaped from a small town life .
-classifying i like all four of the lead actors a lot and they manage to squeeze a few laughs out of the material , but they&apos;re treading water at best in this forgettable effort .
+classifying the verdict : two bodies and hardly a laugh between them .
+classifying . . . a guiltless film for nice evening out .
+classifying it&apos;s a beautifully accomplished lyrical meditation on a bunch of despondent and vulnerable characters living in the renown chelsea hotel . . .
+classifying at just over an hour , home movie will leave you wanting more , not to mention leaving you with some laughs and a smile on your face .
+classifying given the fact that virtually no one is bound to show up at theatres for it , the project should have been made for the tube .
+classifying those outside show business will enjoy a close look at people they don&apos;t really want to know .
+classifying parts seem like they were lifted from terry gilliam&apos;s subconscious , pressed through kafka&apos;s meat grinder and into bu�uel&apos;s casings
+classifying in the long , dishonorable history of quickie teen-pop exploitation , like mike stands out for its only partly synthetic decency .
+classifying aspires for the piquant but only really achieves a sort of ridiculous sourness .
+classifying crammed with incident , and bristles with passion and energy .
+classifying the story gives ample opportunity for large-scale action and suspense , which director shekhar kapur supplies with tremendous skill .
+classifying maid in manhattan proves that it&apos;s easier to change the sheets than to change hackneyed concepts when it comes to dreaming up romantic comedies .
+classifying bouquet gives a performance that is masterly .
+classifying everything -- even life on an aircraft carrier -- is sentimentalized .
+classifying solondz is so intent on hammering home his message that he forgets to make it entertaining .
+classifying despite all the closed-door hanky-panky , the film is essentially juiceless .
+classifying an oddity , to be sure , but one that you might wind up remembering with a degree of affection rather than revulsion .
+classifying enough may pander to our basest desires for payback , but unlike many revenge fantasies , it ultimately delivers .
+classifying jir� hubac&apos;s script is a gem . his characters are engaging , intimate and the dialogue is realistic and greatly moving . the scope of the silberstein family is large and we grow attached to their lives , full of strength , warmth and vitality . .
+classifying i loved the look of this film .
+classifying about as cutting-edge as pet rock : the movie .
+classifying strangely comes off as a kingdom more mild than wild .
+classifying the film is old-fashioned , occasionally charming and as subtle as boldface .
+classifying it tells more than it shows .
+classifying to work , love stories require the full emotional involvement and support of a viewer . that is made almost impossible by events that set the plot in motion .
+classifying &quot; the time machine &quot; is a movie that has no interest in itself . it doesn&apos;t believe in itself , it has no sense of humor�it&apos;s just plain bored .
+classifying a pleasant enough movie , held together by skilled ensemble actors .
+classifying it&apos;s a bizarre curiosity memorable mainly for the way it fritters away its potentially interesting subject matter via a banal script , unimpressive acting and indifferent direction .
+classifying this may not have the dramatic gut-wrenching impact of other holocaust films , but it&apos;s a compelling story , mainly because of the way it&apos;s told by the people who were there .
+classifying nakata&apos;s technique is to imply terror by suggestion , rather than the overuse of special effects .
+classifying the pitch must have read like a discarded house beautiful spread .
+classifying a film that presents an interesting , even sexy premise then ruins itself with too many contrivances and goofy situations .
+classifying seeing seinfeld at home as he watches his own appearance on letterman with a clinical eye reminds you that the key to stand-up is to always make it look easy , even though the reality is anything but .
+classifying as underwater ghost stories go , below casts its spooky net out into the atlantic ocean and spits it back , grizzled and charred , somewhere northwest of the bermuda triangle .
+classifying happily , some things are immune to the folly of changing taste and attitude . for proof of that on the cinematic front , look no further than this 20th anniversary edition of the film that spielberg calls , retrospectively , his most personal work yet .
+classifying cute , funny , heartwarming digitally animated feature film with plenty of slapstick humor for the kids , lots of in-jokes for the adults and heart enough for everyone .
+classifying between the drama of cube ? s personal revelations regarding what the shop means in the big picture , iconic characters gambol fluidly through the story , with charming results .
+classifying cineasts will revel in those visual in-jokes , as in the film&apos;s verbal pokes at everything from the likes of miramax chief harvey weinstein&apos;s bluff personal style to the stylistic rigors of denmark&apos;s dogma movement .
+classifying feels like nothing quite so much as a middle-aged moviemaker&apos;s attempt to surround himself with beautiful , half-naked women .
+classifying the latest adam sandler assault and possibly the worst film of the year .
+classifying a didactic and dull documentary glorifying software anarchy .
+classifying i was impressed by how many tit-for-tat retaliatory responses the filmmakers allow before pulling the plug on the conspirators and averting an american-russian armageddon .
+classifying this follow-up seems so similar to the 1953 disney classic that it makes one long for a geriatric peter .
+classifying an intriguing look at the french film industry during the german occupation ; its most delightful moments come when various characters express their quirky inner selves .
+classifying the cartoon that isn&apos;t really good enough to be on afternoon tv is now a movie that isn&apos;t really good enough to be in theaters .
+classifying the comedy death to smoochy is a rancorous curiosity : a movie without an apparent audience .
+classifying watching beanie and his gang put together his slasher video from spare parts and borrowed materials is as much fun as it must have been for them to make it .
+classifying all the pieces fall together without much surprise , but little moments give it a boost .
+classifying one of those films that seems tailor made to air on pay cable to offer some modest amusements when one has nothing else to watch .
+classifying it doesn&apos;t do the original any particular dishonor , but neither does it exude any charm or personality .
 classifying it may not be history � but then again , what if it is ? � but it makes for one of the most purely enjoyable and satisfying evenings at the movies i&apos;ve had in a while .
-classifying writer-director burger imaginatively fans the embers of a dormant national grief and curiosity that has calcified into chronic cynicism and fear .
-classifying the holiday message of the 37-minute santa vs . the snowman leaves a lot to be desired .
-classifying van wilder doesn&apos;t bring anything new to the proverbial table , but it does possess a coherence absent in recent crass-a-thons like tomcats , freddy got fingered , and slackers .
-classifying what could have been a daytime soap opera is actually a compelling look at a young woman&apos;s tragic odyssey .
-classifying george lucas returns as a visionary with a tale full of nuance and character dimension .
-classifying even the hastily and amateurishly drawn animation cannot engage .
-classifying blue crush follows the formula , but throws in too many conflicts to keep the story compelling .
-classifying huppert and girardot give performances of exceptional honesty .
-classifying yet another movie which presumes that high school social groups are at war , let alone conscious of each other&apos;s existence .
-classifying it&apos;s an offbeat treat that pokes fun at the democratic exercise while also examining its significance for those who take part .
-classifying every note rings false .
-classifying the script manages the rare trick of seeming at once both refreshingly different and reassuringly familiar .
-classifying this insightful , oscar-nominated documentary , in which children on both sides of the ever-escalating conflict have their say away from watchful parental eyes , gives peace yet another chance .
-classifying too silly to take seriously .
-classifying land , people and narrative flow together in a stark portrait of motherhood deferred and desire explored .
-classifying an absorbing and unsettling psychological drama .
-classifying if you&apos;re looking for a smart , nuanced look at de sade and what might have happened at picpus , sade is your film .
-classifying that it&apos;ll probably be the best and most mature comedy of the 2002 summer season speaks more of the season than the picture
-classifying an admitted egomaniac , evans is no hollywood villain , and yet this grating showcase almost makes you wish he&apos;d gone the way of don simpson .
-classifying exploits [headbanger] stereotypes in good fun , while adding a bit of heart and unsettling subject matter .
-classifying can i admit xxx is as deep as a petri dish and as well-characterized as a telephone book but still say it was a guilty pleasure ?
-classifying it was a dark and stormy night . . .
-classifying mindless and boring martial arts and gunplay with too little excitement and zero compelling storyline .
-classifying imagine if you will a tony hawk skating video interspliced with footage from behind enemy lines and set to jersey shore techno .
-classifying filmmakers dana janklowicz-mann and amir mann area headed east , far east , in retelling a historically significant , and personal , episode detailing how one international city welcomed tens of thousands of german jewish refugees while the world&apos;s democracie
-classifying there are many definitions of &apos;time waster&apos; but this movie must surely be one of them .
-classifying a glib but bouncy bit of sixties-style slickness in which the hero might wind up caught but the audience gets pure escapism .
-classifying the story is naturally poignant , but first-time screenwriter paul pender overloads it with sugary bits of business .
-classifying sweetly sexy , funny and touching .
-classifying the performances are remarkable .
-classifying sorority boys , which is as bad at it is cruel , takes every potential laugh and stiletto-stomps the life out of it .
-classifying each punch seen through prison bars , the fights become not so much a struggle of man vs . man as brother-man vs . the man .
-classifying mattei is tiresomely grave and long-winded , as if circularity itself indicated profundity .
-classifying originality ain&apos;t on the menu , but there&apos;s never a dull moment in the giant spider invasion comic chiller .
-classifying as is most commonly case with projects such noble and lofty ambitions , the film is less poetic than simply pretentious .
-classifying it&apos;s the best film of the year so far , the benchmark against which all other best picture contenders should be measured .
-classifying got a david lynch jones ? then you&apos;d do well to check this one out because it&apos;s straight up twin peaks action . . .
-classifying circuit queens won&apos;t learn a thing , they&apos;ll be too busy cursing the film&apos;s strategically placed white sheets .
-classifying a low-rent retread of the alien pictures .
-classifying choppy editing and too many repetitive scenes spoil what could have been an important documentary about stand-up comedy .
-classifying there&apos;s no way to sort out the mess in our heads and deconstruct where it all went wrong . this is an hour and a half of daydreaming .
-classifying it&apos;s hard to believe that a relationship like holly and marina&apos;s could survive the hothouse emotions of teendom , and its longevity gets more inexplicable as the characterizations turn more crassly reductive .
-classifying may be spoofing an easy target -- those old &apos;50&apos;s giant creature features -- but . . . it acknowledges and celebrates their cheesiness as the reason why people get a kick out of watching them today .
-classifying to imagine the life of harry potter as a martial arts adventure told by a lobotomized woody allen is to have some idea of the fate that lies in store for moviegoers lured to the mediocrity that is kung pow : enter the fist .
-classifying this illuminating documentary transcends our preconceived vision of the holy land and its inhabitants , revealing the human complexities beneath .
+classifying rifkin no doubt fancies himself something of a hubert selby jr . , but there isn&apos;t an ounce of honest poetry in his entire script ; it&apos;s simply crude and unrelentingly exploitative .
+classifying the film proves unrelentingly grim -- and equally engrossing .
+classifying &quot; auto focus &quot; works as an unusual biopic and document of male swingers in the playboy era
+classifying this is a very fine movie -- go see it .
+classifying a standard police-oriented drama that , were it not for de niro&apos;s participation , would have likely wound up a tnt original .
+classifying a film that plays things so nice &apos;n safe as to often play like a milquetoast movie of the week blown up for the big screen .
+classifying the salton sea has moments of inspired humour , though every scrap is of the darkest variety .
+classifying instead of a hyperbolic beat-charged urban western , it&apos;s an unpretentious , sociologically pointed slice of life .
+classifying diane lane&apos;s sophisticated performance can&apos;t rescue adrian lyne&apos;s unfaithful from its sleazy moralizing .
+classifying it&apos;s both sitcomishly predictable and cloying in its attempts to be poignant .
+classifying there are some wonderfully fresh moments that smooth the moral stiffness with human kindness and hopefulness .
+classifying a spunky , original take on a theme that will resonate with singles of many ages .
+classifying in the spirit of the season , i assign one bright shining star to roberto benigni&apos;s pinocchio -- but i guarantee that no wise men will be following after it .
+classifying a masterful film from a master filmmaker , unique in its deceptive grimness , compelling in its fatalist worldview .
+classifying an improvement on the feeble examples of big-screen poke-mania that have preceded it .
+classifying anyone who&apos;s ever suffered under a martinet music instructor has no doubt fantasized about what an unhappy , repressed and twisted personal life their tormentor deserved . these people are really going to love the piano teacher .
+classifying an utterly compelling &apos;who wrote it&apos; in which the reputation of the most famous author who ever lived comes into question .
+classifying while tattoo borrows heavily from both seven and the silence of the lambs , it manages to maintain both a level of sophisticated intrigue and human-scale characters that suck the audience in .
+classifying the best that can be said about the work here of scottish director ritchie . . . is that he obviously doesn&apos;t have his heart in it .
+classifying this is the sort of burly action flick where one coincidence pummels another , narrative necessity is a drunken roundhouse , and whatever passes for logic is a factor of the last plot device left standing .
+classifying a perfect example of rancid , well-intentioned , but shamelessly manipulative movie making .
+classifying a preposterously melodramatic paean to gang-member teens in brooklyn circa 1958 .
+classifying a negligible british comedy .
+classifying hugh grant , who has a good line in charm , has never been more charming than in about a boy .
+classifying simone is not a bad film . it just doesn&apos;t have anything really interesting to say .
+classifying this formulaic chiller will do little to boost stallone&apos;s career .
+classifying rich in detail , gorgeously shot and beautifully acted , les destinees is , in its quiet , epic way , daring , inventive and refreshingly unusual .
+classifying many of benjamins&apos; elements feel like they&apos;ve been patched in from an episode of miami vice .
+classifying . . . creates a visceral sense of its characters&apos; lives and conflicted emotions that carries it far above . . . what could have been a melodramatic , lifetime channel-style anthology .
+classifying try as i may , i can&apos;t think of a single good reason to see this movie , even though everyone in my group extemporaneously shouted , &apos;thank you ! &apos; when leguizamo finally plugged an irritating character late in the movie .
+classifying austin powers in goldmember is a cinematic car wreck , a catastrophic collision of tastelessness and gall that nevertheless will leave fans clamoring for another ride .
+classifying as an actor&apos;s showcase , hart&apos;s war has much to recommend it , even if the top-billed willis is not the most impressive player . as a story of dramatic enlightenment , the screenplay by billy ray and terry george leaves something to be desired .
+classifying for a film about action , ultimate x is the gabbiest giant-screen movie ever , bogging down in a barrage of hype .
+classifying serving sara should be served an eviction notice at every theater stuck with it .
+classifying imagine a really bad community theater production of west side story without the songs .
+classifying [washington&apos;s] strong hand , keen eye , sweet spirit and good taste are reflected in almost every scene .
 </pre>
 </div>
 </div>

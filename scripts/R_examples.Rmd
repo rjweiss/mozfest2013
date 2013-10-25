@@ -1,0 +1,185 @@
+Notes from MozFest Workshop
+========================================================
+
+```{r}
+library(plyr)
+library(reshape2)
+setwd("/Users/rweiss/Dropbox/presentations/MozFest2013/data/")
+```
+
+
+# Sentiment
+```{r}
+#Using Tim Jurka's sentiment package
+library(sentiment)
+
+rt_neg = read.delim("rt-polaritydata/rt-polaritydata/rt-polarity.neg", header=F, quote="")
+rt_pos = read.delim("rt-polaritydata/rt-polaritydata/rt-polarity.pos", header=F, quote="")
+rt_neg = data.frame(rt_neg)
+rt_pos = data.frame(rt_pos)
+rt_neg$label = "negative"
+rt_pos$label = "positive"
+reviews = rbind(rt_neg, rt_pos)
+names(reviews) = c('content','label')
+
+#let's start off with a small sample
+sample_size = 100
+num_documents = dim(reviews)[1]
+reviews_sample <- reviews[sample(1:num_documents,size=sample_size,replace=FALSE),]
+reviews_sample$content = as.character(reviews_sample$content)
+
+foo = data.frame(as.character(reviews_sample$label), as.character(reviews_sample$content))
+write.csv(reviews_sample$content, 'reviews_data.csv', row.names=F, col.names=F)
+#let's save this so we can compare it against the SASA tool
+write.table(foo, '../sentiment_examples/reviews_sample.csv', col.names=c('label','content'), row.names=F, quote=F, sep="\t")
+
+class(reviews_sample) #make sure it is a data frame object
+head(reviews_sample) # Look at the first six lines or so
+summary(reviews_sample) #summarize the data
+sapply(reviews_sample, class) #look at the class of each column
+dim(reviews_sample) #Check the dimensions, rows and columns
+
+predicted_sentiment = ddply(reviews_sample, .(content), function(x){
+  classify_polarity(x, algorithm="bayes")
+})
+
+table(reviews_sample$label)
+
+predicted_sentiment$"POS/NEG" = as.numeric(as.character(predicted_sentiment$"POS/NEG"))
+predicted_sentiment$label = cut(predicted_sentiment$"POS/NEG", breaks=c(0, 1, max(predicted_sentiment$"POS/NEG")))
+levels(predicted_sentiment$label)  = c('negative','positive')
+number_correct = sum(predicted_sentiment$label == reviews_sample$label)
+number_correct / sample_size
+
+table(reviews_sample$label)
+table(predicted_sentiment$label)
+reviews_labeled = data.frame(predicted_sentiment$label, predicted_sentiment$content)
+write.csv(reviews_labeled, '../sentiment_examples/reviews_sample_2.csv', row.names=F)
+```
+
+#Document Labels
+```{r}
+#Adapted from Collingwood and Jurka's 
+# READ THE CSV DATA from the RTextTools package
+library(RTextTools)
+data(NYTimes)
+dim(NYTimes)
+head(NYTimes)
+
+valid = c(3, 12, 15, 16, 19, 20, 29)
+NYTimes = NYTimes[NYTimes$Topic.Code %in% valid,]
+#consider only using 3, 12, 15, 16, 19, 20, 29
+num_documents = dim(NYTimes)[1]
+
+#Examine the data
+class(NYTimes) #make sure it is a data frame object
+head(NYTimes) # Look at the first six lines or so
+summary(NYTimes) #summarize the data
+sapply(NYTimes, class) #look at the class of each column
+dim(NYTimes) #Check the dimensions, rows and columns
+
+# [OPTIONAL] SUBSET YOUR DATA TO GET A RANDOM SAMPLE
+#sample_size = 500
+sample_size = num_documents
+NYT_sample <- NYTimes[sample(1:num_documents,size=sample_size,replace=FALSE),]
+
+out_data = data.frame(NYT_sample$Topic.Code, NYT_sample$Title)
+write.csv(out_data, 'nyt_title_data.csv', row.names=F)
+
+# CREATE A TERM-DOCUMENT MATRIX THAT REPRESENTS WORD FREQUENCIES IN EACH DOCUMENT
+# WE WILL TRAIN ON THE Title COLUMNS
+#NYT_dtm <- create_matrix(data.frame(NYT_sample$Title,NYT_sample$Subject), 
+NYT_dtm <- create_matrix(as.vector(NYT_sample$Title), 
+                         language="english", 
+                         removeNumbers=TRUE, 
+                         stemWords=TRUE, 
+                         weighting=weightTfIdf)
+
+NYT_dtm # Sparse Matrix object
+
+########################################
+#     CORPUS AND CONTAINER CREATION	   #
+########################################
+
+train_n = round(sample_size * 0.8)
+test_n = round(sample_size * 0.2)
+
+corpus <- create_container(NYT_dtm,
+                        NYT_sample$Topic.Code,
+                        trainSize=1:train_n,
+                        testSize=(train_n+1):sample_size,
+                        virgin=FALSE)
+
+names(attributes(corpus)) #class matrix_container
+paste(NYT_sample[1,]$Title)
+corpus@column_names[corpus@training_matrix[1]@ja]
+
+##############################
+#			   TRAIN MODELS				 #
+##############################
+
+models <- train_models(corpus, algorithms=c("SVM","MAXENT"))
+results <- classify_models(corpus, models)
+analytics <- create_analytics(corpus, results)
+
+nyt_codes = read.csv("nytimes_codes.csv")
+
+svm_full = data.frame(NYT_sample[1730:2161,]$Title, results$SVM_LABEL)
+maxent_full = data.frame(NYT_sample[1730:2161,]$Title, results$MAXENTROPY_LABEL)
+
+names(svm_full) = c('content','code')
+names(maxent_full) = c('content','code')
+svm_full= merge(svm_full, nyt_codes)
+maxent_full= merge(maxent_full, nyt_codes)
+
+#lets take a random sample of each of these and ask people to code them
+
+#svm_mozfest = svm_full[sample(1:432,size=100,replace=FALSE),]
+#maxent_mozfest = maxent_full[sample(1:432,size=100,replace=FALSE),]
+
+#write.csv(svm_mozfest, 'svm_mozfest.csv', row.names=FALSE)
+#write.csv(maxent_mozfest,'maxent_mozfest.csv', row.names=FALSE)
+
+# RESULTS WILL BE REPORTED BACK IN THE analytics VARIABLE.
+#SUMMARY OF PRECISION, RECALL, F-SCORES, AND ACCURACY SORTED BY TOPIC CODE FOR EACH ALGORITHM
+analytics@algorithm_summary
+# SUMMARY OF LABEL (e.g. TOPIC) ACCURACY
+#analytics@label_summary
+# RAW SUMMARY OF ALL DATA AND SCORING
+#analytics@document_summary
+
+x <- as.numeric(rownames(analytics@algorithm_summary))[-20]
+y <- analytics@algorithm_summary$SVM_RECALL[-20]
+plot(x, y, type="l", lwd=3, main="Support Vector Machine Topic Accuracy", ylab="Recall Accuracy", xlab="Topic")
+abline(h=.75, lwd=2, col="maroon")
+text(x, y, adj=1.2)
+
+x <- as.numeric(rownames(analytics@algorithm_summary))[-20]
+y <- analytics@algorithm_summary$MAXENT_RECALL[-20]
+plot(x, y, type="l", lwd=3, main="Maximum Entropy Topic Accuracy", ylab="Recall Accuracy", xlab="Topic")
+abline(h=.75, lwd=2, col="maroon")
+text(x, y, adj=1.2)
+
+```
+
+```{r}
+library(topicmodels)
+
+#term frequency vectors, not tf-idf vectors
+n_topics = 20
+NYT_dtm <- create_matrix(as.vector(NYT_sample$Title), 
+                         language="english", 
+                         removeNumbers=FALSE, 
+                         stemWords=FALSE, #only because they are short 
+                         weighting=weightTf)
+
+rowTotals <- apply(NYT_dtm , 1, sum)
+NYT_dtm_full   <- NYT_dtm[rowTotals> 0]  
+
+k <- length(unique(NYT_sample$Topic.Code))
+lda <- LDA(NYT_dtm_full, k)
+
+data("AssociatedPress", package = "topicmodels")
+lda <- LDA(AssociatedPress[1:1000,], control = list(alpha = 0.1), k = 20)
+lda_inf <- posterior(lda, AssociatedPress[21:30,])
+```

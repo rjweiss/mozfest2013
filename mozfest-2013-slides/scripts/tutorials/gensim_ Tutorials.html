@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><script data-rocketoptimized="true" data-rocketsrc="//api-public.addthis.com/url/shares.json?url=http%3A%2F%2Fradimrehurek.com%2Fgensim%2Ftutorial.html&amp;callback=_ate.cbs.sc_httpradimrehurekcomgensimtutorialhtml0" type="text/javascript"></script><script data-rocketoptimized="true" data-rocketsrc="//ct1.addthis.com/static/r07/auth015.js" type="text/javascript"></script><script data-rocketoptimized="true" data-rocketsrc="//ct1.addthis.com/static/r07/counter016.js" type="text/javascript"></script><link media="all" href="gensim_%20Tutorials_files/counter013.css" type="text/css" rel="stylesheet"><link media="all" href="gensim_%20Tutorials_files/widget116.css" type="text/css" rel="stylesheet">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta property="description" content="Efficient topic modelling of text semantics in Python.">
+<meta property="og:title" content="gensim: topic modelling for humans">
+<meta property="og:description" content="Efficient topic modelling in Python">
+<title>gensim: Tutorials</title>
+<script data-rocketoptimized="true" data-rocketsrc="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4d738b9b1d31ccbd" async="" type="text/javascript"></script><script data-rocketoptimized="true" data-rocketsrc="http://www.google-analytics.com/ga.js" async="" type="text/javascript"></script><script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) { var CloudFlare=[{verbose:0,p:1381660468,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/abv=1309062649/"},atok:"d9d2c99da25590f2ce65bb9691a2fce7",petok:"9c076f9722452972cf42d5b14b4e34d2-1382569052-1800",zone:"radimrehurek.com",rocket:"a",apps:{}}];document.write('<script type="text/javascript" src="//ajax.cloudflare.com/cdn-cgi/nexp/abv=3224043168/cloudflare.min.js"><'+'\/script>')}}catch(e){};
+//]]>
+</script><script type="text/javascript" src="gensim_%20Tutorials_files/cloudflare.js"></script><style type="text/css">.cf-hidden { display: none; } .cf-invisible { visibility: hidden; }</style><script data-module="cloudflare/rocket" id="cfjs_block_8345e96ad9" onload="CloudFlare.__cfjs_block_8345e96ad9_load()" onerror="CloudFlare.__cfjs_block_8345e96ad9_error()" onreadystatechange="CloudFlare.__cfjs_block_8345e96ad9_readystatechange()" type="text/javascript" src="gensim_%20Tutorials_files/rocket.js"></script>
+<link rel="stylesheet" href="gensim_%20Tutorials_files/style.css" type="text/css">
+<link rel="stylesheet" href="gensim_%20Tutorials_files/jquery.css" type="text/css">
+<link rel="stylesheet" href="gensim_%20Tutorials_files/anythingslider.css" type="text/css">
+<link rel="stylesheet" href="gensim_%20Tutorials_files/pygments.css" type="text/css">
+<link rel="shortcut icon" href="http://radimrehurek.com/gensim/_static/favicon.ico">
+<script data-rocketoptimized="true" type="text/rocketscript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-24066335-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+<div id="topwrap">
+<div id="top1">
+<div id="left1">
+<h1 class="h1gensim">
+<img src="gensim_%20Tutorials_files/logo-gensim_compact.png" alt="gensim logo" title="Gensim - topic modelling for humans">
+</h1>
+</div>
+<div id="middleright">
+<div id="middle1">
+<div id="gensim"><a href="http://radimrehurek.com/gensim/index.html"><img src="gensim_%20Tutorials_files/gensim_compact.png" alt="gensim" title="Gensim home"></a></div>
+<div id="tagline"><img src="gensim_%20Tutorials_files/tagline_compact.png" alt="gensim tagline"></div>
+</div>
+<div id="right1">
+</div>
+</div>
+</div>
+<div id="menu">
+<div id="indentation1">
+<ul class="menubuttons">
+<li class="menubutton"><a href="http://radimrehurek.com/gensim/index.html">Home</a></li>
+<li class="menubuttonblue"><a href="#">Tutorials</a></li>
+<li class="menubutton"><a href="http://radimrehurek.com/gensim/install.html">Install</a></li>
+<li class="menubutton"><a href="http://radimrehurek.com/gensim/support.html">Support</a></li>
+<li class="menubutton"><a href="http://radimrehurek.com/gensim/apiref.html">API</a></li>
+<li class="menubutton"><a href="http://radimrehurek.com/gensim/about.html">About</a></li>
+</ul>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<script data-rocketoptimized="true" type="text/rocketscript">
+  var DOCUMENTATION_OPTIONS = {
+    URL_ROOT: './',
+    VERSION: '0.8.7',
+    COLLAPSE_INDEX: false,
+    FILE_SUFFIX: '.html',
+    HAS_SOURCE: true
+  };
+  </script>
+<script data-rocketoptimized="true" type="text/rocketscript" data-rocketsrc="_static/js/jquery-1.9.1.min.js"></script>
+<script data-rocketoptimized="true" type="text/rocketscript" data-rocketsrc="_static/js/jquery.qtip.min.js"></script>
+<script data-rocketoptimized="true" type="text/rocketscript" data-rocketsrc="_static/js/jquery-migrate-1.1.1.min.js"></script>
+<script data-rocketoptimized="true" type="text/rocketscript" data-rocketsrc="_static/js/jquery.anythingslider.min.js"></script>
+<div class="document">
+<div id="thinbanner">
+<div id="bodythinbanner">
+<span class="h2gensim">Tutorials</span>
+</div>
+</div>
+<div class="obsah">
+<div class="obsahwrapper">
+<div class="section" id="tutorials">
+<span id="tutorial"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
+<p>The tutorials are organized as a series of examples that highlight various features
+of <cite>gensim</cite>. It is assumed that the reader is familiar with the <a class="reference external" href="http://www.python.org/">Python language</a>, has <a class="reference internal" href="http://radimrehurek.com/gensim/install.html"><em>installed gensim</em></a>
+and read the <a class="reference internal" href="http://radimrehurek.com/gensim/intro.html"><em>introduction</em></a>.</p>
+<p>The examples are divided into parts on:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="http://radimrehurek.com/gensim/tut1.html">Corpora and Vector Spaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/tut1.html#from-strings-to-vectors">From Strings to Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/tut1.html#corpus-streaming-one-document-at-a-time">Corpus Streaming – One Document at a Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/tut1.html#corpus-formats">Corpus Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/tut1.html#compatibility-with-numpy-and-scipy">Compatibility with NumPy and SciPy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="http://radimrehurek.com/gensim/tut2.html">Topics and Transformations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/tut2.html#transformation-interface">Transformation interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/tut2.html#available-transformations">Available transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="http://radimrehurek.com/gensim/tut3.html">Similarity Queries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/tut3.html#similarity-interface">Similarity interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/tut3.html#where-next">Where next?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="http://radimrehurek.com/gensim/wiki.html">Experiments on the English Wikipedia</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/wiki.html#preparing-the-corpus">Preparing the corpus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/wiki.html#latent-sematic-analysis">Latent Sematic Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/wiki.html#latent-dirichlet-allocation">Latent Dirichlet Allocation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="http://radimrehurek.com/gensim/distributed.html">Distributed Computing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/distributed.html#why-distributed-computing">Why distributed computing?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/distributed.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/distributed.html#core-concepts">Core concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http://radimrehurek.com/gensim/distributed.html#available-distributed-algorithms">Available distributed algorithms</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
+<p>All the examples can be directly copied to your Python interpreter shell. <a class="reference external" href="http://ipython.scipy.org/">IPython</a>‘s <tt class="docutils literal"><span class="pre">cpaste</span></tt> command is especially handy for copypasting code fragments, including the leading <tt class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></tt> characters.</p>
+<p>Gensim uses Python’s standard <tt class="xref py py-mod docutils literal"><span class="pre">logging</span></tt> module to log various stuff at various
+priority levels; to activate logging (this is optional), run</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="s">'</span><span class="si">%(asctime)s</span><span class="s"> : </span><span class="si">%(levelname)s</span><span class="s"> : </span><span class="si">%(message)s</span><span class="s">'</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="quick-example">
+<span id="first-example"></span><h2>Quick Example<a class="headerlink" href="#quick-example" title="Permalink to this headline">¶</a></h2>
+<p>First, let’s import gensim and create a small corpus of nine documents and twelve features <a class="footnote-reference" href="#id2" id="id1">[1]</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gensim</span> <span class="kn">import</span> <span class="n">corpora</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">similarities</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[[(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)]]</span>
+</pre></div>
+</div>
+<p><em class="dfn">Corpus</em> is simply an object which, when iterated over, returns its documents represented
+as sparse vectors. If you’re not familiar with the <a class="reference external" href="http://en.wikipedia.org/wiki/Vector_space_model">vector space model</a>, we’ll bridge the gap between <strong>raw strings</strong>, <strong>corpora</strong> and <strong>sparse vectors</strong> in the next tutorial on <a class="reference internal" href="http://radimrehurek.com/gensim/tut1.html"><em>Corpora and Vector Spaces</em></a>.</p>
+<p>If you’re familiar with the vector space model, you’ll probably know 
+that the way you parse your documents and convert them to vectors
+has major impact on the quality of any subsequent applications.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this example, the whole corpus is stored in memory, as a Python list. However,
+the corpus interface only dictates that a corpus must support iteration over its
+constituent documents. For very large corpora, it is advantageous to keep the
+corpus on disk, and access its documents sequentially, one at a time. All the
+operations and transformations are implemented in such a way that makes
+them independent of the size of the corpus, memory-wise.</p>
+</div>
+<p>Next, let’s initialize a <em class="dfn">transformation</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">tfidf</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TfidfModel</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A transformation is used to convert documents from one vector representation into another:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vec</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">tfidf</span><span class="p">[</span><span class="n">vec</span><span class="p">]</span>
+<span class="go">[(0, 0.8075244), (4, 0.5898342)]</span>
+</pre></div>
+</div>
+<p>Here, we used <a class="reference external" href="http://en.wikipedia.org/wiki/Tf%E2%80%93idf">Tf-Idf</a>, a simple
+transformation which takes documents represented as bag-of-words counts and applies
+a weighting which discounts common terms (or, equivalently, promotes rare terms).
+It also scales the resulting vector to unit length (in the <a class="reference external" href="http://en.wikipedia.org/wiki/Norm_%28mathematics%29#Euclidean_norm">Euclidean norm</a>).</p>
+<p>Transformations are covered in detail in the tutorial on <a class="reference internal" href="http://radimrehurek.com/gensim/tut2.html"><em>Topics and Transformations</em></a>.</p>
+<p>To transform the whole corpus via TfIdf and index it, in preparation for similarity queries:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">index</span> <span class="o">=</span> <span class="n">similarities</span><span class="o">.</span><span class="n">SparseMatrixSimilarity</span><span class="p">(</span><span class="n">tfidf</span><span class="p">[</span><span class="n">corpus</span><span class="p">],</span> <span class="n">num_features</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and to query the similarity of our query vector <tt class="docutils literal"><span class="pre">vec</span></tt> against every document in the corpus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">sims</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">tfidf</span><span class="p">[</span><span class="n">vec</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="nb">list</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">sims</span><span class="p">))</span>
+<span class="go">[(0, 0.4662244), (1, 0.19139354), (2, 0.24600551), (3, 0.82094586), (4, 0.0), (5, 0.0), (6, 0.0), (7, 0.0), (8, 0.0)]</span>
+</pre></div>
+</div>
+<p>How to read this output? Document number zero (the first document) has a similarity score of 0.466=46.6%,
+the second document has a similarity score of 19.1% etc.</p>
+<p>Thus, according to TfIdf document representation and cosine similarity measure,
+the most similar to our query document <cite>vec</cite> is document no. 3, with a similarity score of 82.1%.
+Note that in the TfIdf representation, any documents which do not share any common features
+with <tt class="docutils literal"><span class="pre">vec</span></tt> at all (documents no. 4–8) get a similarity score of 0.0. See the <a class="reference internal" href="http://radimrehurek.com/gensim/tut3.html"><em>Similarity Queries</em></a> tutorial for more detail.</p>
+<hr class="docutils">
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>This is the same corpus as used in
+<a class="reference external" href="http://www.cs.bham.ac.uk/%7Epxt/IDA/lsa_ind.pdf">Deerwester et al. (1990): Indexing by Latent Semantic Analysis</a>, Table 2.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<div id="footer">
+<div id="footerwrapper">
+<div id="footerleft">
+<img src="gensim_%20Tutorials_files/logo-gensim.png" class="smallerlogo" alt="smaller gensim logo">
+<a href="http://radimrehurek.com/gensim/index.html"><img src="gensim_%20Tutorials_files/gensim-footer.png" alt="gensim footer image" title="Gensim home"></a>
+<div class="copyright">
+© Copyright 2009-2013, <a href="mailto:radimrehurek@seznam.cz" style="color:white"> Radim Řehůřek</a>.
+<br>
+Last updated on Sep 18, 2013.
+</div>
+</div>
+<div id="footermiddleright">
+<div id="footermiddle">
+<ul class="navigation">
+<li><a href="http://radimrehurek.com/gensim/index.html">
+Home
+</a></li>
+<li>|</li>
+<li><a href="#">
+Tutorials
+</a></li>
+<li>|</li>
+<li><a href="http://radimrehurek.com/gensim/install.html">
+Install
+</a></li>
+<li>|</li>
+<li><a href="http://radimrehurek.com/gensim/support.html">
+Support
+</a></li>
+<li>|</li>
+<li><a href="http://radimrehurek.com/gensim/apiref.html">
+API
+</a></li>
+<li>|</li>
+<li><a href="http://radimrehurek.com/gensim/about.html">
+About
+</a></li>
+</ul>
+<div class="tweetodsazeni">
+<div class="tweet">
+Feel free to tweet !
+</div>
+</div>
+</div>
+<div id="footerright">
+<div class="footernadpis">
+Support:
+</div>
+<div class="googlegroupsodsazeni">
+<a href="https://groups.google.com/group/gensim" class="googlegroups">
+Join the Google discussion group
+</a>
+<form action="http://groups.google.com/group/gensim/boxsubscribe">
+<input name="email" placeholder="your@email.com" size="28" type="text">
+<input name="sub" value="Subscribe" type="submit">
+</form>
+</div>
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:title="#gensim" addthis:description="Efficient Topic Modelling in Python" style="margin:20px 0 0 0">
+<a href="#" title="Facebook" class="addthis_button_facebook addthis_button_preferred_1 at300b"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y">Share on facebook</span></span></a>
+<a href="#" title="Tweet" class="addthis_button_twitter addthis_button_preferred_2 at300b"><span class=" at300bs at15nc at15t_twitter"><span class="at_a11y">Share on twitter</span></span></a>
+<a href="#" title="Email" target="_blank" class="addthis_button_email addthis_button_preferred_3 at300b"><span class=" at300bs at15nc at15t_email"><span class="at_a11y">Share on email</span></span></a>
+<a href="#" title="Print" class="addthis_button_print addthis_button_preferred_4 at300b"><span class=" at300bs at15nc at15t_print"><span class="at_a11y">Share on print</span></span></a>
+<a href="#" class="addthis_button_compact at300m"><span class=" at300bs at15nc at15t_compact"><span class="at_a11y">More Sharing Services</span></span></a>
+<a href="#" style="display: block;" class="addthis_counter addthis_bubble_style"><a href="#" title="View more services" target="_blank" class="addthis_button_expanded">7</a><a class="atc_s addthis_button_compact"><span></span></a></a>
+<div class="atclear"></div></div>
+</div>
+</div>
+</div>
+</div>
+<script data-rocketoptimized="true" type="text/rocketscript">
+      (function() {
+      var at = document.createElement('script'); at.type = 'text/javascript'; at.async = true;
+      at.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 's7.addthis.com/js/250/addthis_widget.js#pubid=ra-4d738b9b1d31ccbd';
+      var sat = document.getElementsByTagName('script')[0]; sat.parentNode.insertBefore(at, sat);
+      })();
+    </script>
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&"www.cloudflare.com/email-protection"==a.substr(7 ,35)){s='';j=43;r=parseInt(a.substr(j,2),16);for(j+=2;a.length-j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+
+<div id="_atssh" style="visibility: hidden; height: 1px; width: 1px; position: absolute; z-index: 100000;"><iframe src="gensim_%20Tutorials_files/sh138.html" style="height: 1px; width: 1px; position: absolute; z-index: 100000; border: 0px none; left: 0px; top: 0px;" title="AddThis utility frame" id="_atssh950"></iframe></div><script data-rocketoptimized="true" data-rocketsrc="http://ct1.addthis.com/static/r07/core104.js" type="text/javascript"></script></body></html>

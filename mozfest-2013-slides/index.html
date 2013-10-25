@@ -1,0 +1,425 @@
+<!--
+Google IO 2012/2013 HTML5 Slide Template
+
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahé <lukem@google.com>
+
+URL: https://code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/ff-logo.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>About me</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Data analyst at Mozilla
+          <ul>
+            <li>Labeling open-ended survey questions</li>
+            <li>Tagging user input forms</li>
+            <li>*Topic and sentiment analysis of social media</li>
+          </ul>
+        </li>
+        <li>PhD Candidate at Stanford
+          <ul>
+            <li>Large-scale computational analysis of news media</li>
+            <li>Impact of news coverage on public opinion</li>
+            <li>Agenda-setting, gatekeeping effects</li>
+          </ul>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+<slide>
+	<hgroup>
+		<h2>What will and won't this session cover?</h2>
+	</hgroup>
+	<article>
+        <ul class="build">
+			<li>We'll go over...
+			<ul class="build fade">
+				<li><b>Jargon</b>: Learn the terminology of this area</li>
+				<li><b>Tour of tools</b>: The libraries/packages and common programming languages</li>
+				<li><b>Starter code</b>: Basic code to start working on your own projects
+			</ul>
+			</li>
+			<li>We don't have time for...
+			<ul class="build fade">
+				<li><b>Computer science</b>: Detailed review of how computers represent characters and strings</li>
+				<li><b>Math</b>: The statistical reasoning behind the methods presented </li>
+			</ul>
+			</li>
+			<li>By the end of this session...
+				<ul class="build fade">
+					<li>You will know more about libraries to use to do text analysis</li>
+					<li>You will know more about the assumptions text analysts make</li>
+					<li>You will not think of these methods as magic black boxes, but as tools that are (and sometimes aren't) applied appropriately</li>
+				</ul>
+			</li>
+        </ul>
+	</article>
+</slide>
+
+
+<slide class="segue dark nobackground">
+  <aside class="gdbar"><img src="images/ff-logo.png"></aside>
+  <hgroup class="auto-fadein">
+    <h2>Text preprocessing</h2>
+    <h3>Transforming text into data</h3>
+  </hgroup>
+</slide>
+
+
+<slide>
+  <hgroup>
+	  <h2>Going from collections of text to answers</h2>
+  </hgroup>
+  <article class="flexbox vcenter">
+	  <img src="images/shazam.png" height="450px">
+  </article>
+</slide>
+
+
+<slide>
+  <hgroup>
+	  <h2>Going from collections of text to answers</h2>
+  </hgroup>
+  <article class="flexbox vcenter">
+	  <img src="images/textanalysis.png" height="450px">
+  </article>
+</slide>
+
+
+<slide>
+  <hgroup>
+	  <h2>Going from collections of text to answers</h2>
+  </hgroup>
+  <article class="flexbox vcenter">
+	  <img src="images/textanalysis1.png" height="450px">
+  </article>
+</slide>
+
+
+<slide>
+  <hgroup>
+	  <h2>Going from collections of text to answers</h2>
+  </hgroup>
+  <article class="flexbox vcenter">
+	  <img src="images/textanalysis2.png" height="450px">
+  </article>
+</slide>
+
+<slide>
+	<hgroup>
+		<h2>Typical steps in text cleaning</h2>
+	</hgroup>
+	<article class="smaller">
+		<p>In no particular order, most people perform some combination of the following:</p>
+		<ul class="build">
+			<li>Removing HTML entities and other text junk (if parsing webpage data)</li>
+			<li>Tokenize text into sentences and words</li>
+			<li>SPELLCHECK</li>
+			<li>Dump punctuation</li>
+			<li>Prune stopwords</li>
+			<li>Stemming/lemmatizing</li>
+		<p>Many library libraries will take care of these steps for you.<br/>But you can never trust one library to do everything for you, even if they claim they can!</p>
+	</ul>
+	</article>
+</slide>
+
+<slide>
+  <hgroup>
+	  <h2>Going from collections of text to answers</h2>
+  </hgroup>
+  <article class="flexbox vcenter">
+	  <img src="images/textanalysis3.png" height="450px">
+  </article>
+</slide>
+
+<slide>
+  <hgroup>
+	  <h2>Going from collections of text to answers</h2>
+  </hgroup>
+  <article class="flexbox vcenter">
+	  <img src="images/textanalysis4.png" height="450px">
+  </article>
+</slide>
+
+
+
+
+<slide>
+	<hgroup>
+		<h4><b>Useful NLP/ML libraries for text</b></h4>
+	</hgroup>
+	<article class="smaller">
+		<ul class="build">
+			<li><b>Python</b>
+			<ul class="build">
+				<li><b>NLTK (Natural Language Tookit): </b> comes with trained models, requires massive data downloads, more about traditional computational linguistics than text analysis, many useful functions for preprocessing and analysis</li>
+				<li><b>Scikit-Learn: </b> omes with trained models, useful Swiss Army knife of machine learning applications, preprocessin support</li>
+				<li><b>Gensim</b>: Topic modeling library that can do LDA, LSI, and has preprocessing support</li>
+			</ul>
+			</li>	
+			<li><b>R</b>
+			<ul class="build">
+				<li><b>tm</b>: Basic text mining toolkit, major dependence for many other R packages, creates DTMs and helper functions</li>
+				<li><b>RTextTools</b>: Package that wraps up many basic text analysis tasks in one approach; many R dependencies (tm, e1071, )</li>
+				<li><b>topicmodels</b>: LDA and CTM topic models
+			</ul>
+			</li>
+			<li><b>Java</b></li>
+			<ul class="build">
+				<li><b>Stanford CoreNLP</b>: One of the most full-featured NLP pipelines, many state-of-the-art baseline accuracies, can do NER, POS tagging, Sentiment, Classification, and more</li>
+				<li><b>*Stanford Topic Modeling Toolbox</b>: Scala library that can do LDA, LLDA, and PLDA</li>
+				<li><b>MALLET</b>: Very popular all-in-one library from UMass-Amherst, not sure about scalability and parallellization</li>
+			</ul>
+	</ul>
+</article>
+</slide>
+
+<slide>
+	<hgroup>
+		<h2>How to we treat text as data?</h2>
+	</hgroup>
+	<article>
+		<ul class="build">
+			<li><b>Four levels</b>: Corpus, document, sentence, and word
+				<ul class="build fade">
+					<li>Word-level: frequencies of mentions</li>
+					<li>Sentence-level: sentiment, grammatical relations</li>
+					<li>Document-level: topic(s), labels</li>
+					<li>Corpus-level: topics</li>
+				</ul>
+			</li>
+			<li>We're mostly interested in sentence, document, and corpus-level measures</li>
+			<li><b>The most important thing to know:</b> Choosing a level of analysis is determined by your assumptions about which one is most meaningful</li>
+			<li><b>The second most important thing to know:</b> Almost all of these methods depend upon the <b class="red">vector-space model of text</b></li>
+		</ul>
+	</article>
+</slide>
+
+<slide>
+	<hgroup>
+		<h2>The Vector Space Model</h2>
+	</hgroup>
+	<article>
+	<ul class="build">
+		<li>A corpus is a collection of documents</li>
+		<li>A document, at some level, is just a collection of words</li>
+		<li>If we throw away the ordering of words, then we have a <b>bag of words</b></li>
+		<li>If we treat every document as a bag of words, every document is now a <b>word vector</b>
+		<li>If we can keep track of the count of words, then we can represent each document as a <b>term frequency vector</b> </li>
+		<li>Most people like to represent a bag-of-words corpus as a <b>document-term matrix</b>
+	</article>
+	</ul>
+</slide>
+
+<slide>
+  <article>
+    <iframe data-src="tfidf.html"></iframe>
+  </article>
+</slide>
+
+<slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/ff-logo.png"></aside>
+  <hgroup class="auto-fadein">
+    <h2>Extracting data from texts</h2>
+    <h3>Sentence-level</h3>
+  </hgroup>
+</slide>
+
+<slide>
+  <hgroup>
+	  <h2>Why would we be interested in sentences?</h2>
+  </hgroup>
+  <article>
+	  <ul class="build fade">
+		  <li>You want to know all the persons, organizations, locations named in a collection of documents</li>
+		  <li><b>Named Entity Recognition</b>
+		  <ul>
+			  <li>The Stanford Named Entity Recognizer</li>
+		  </ul>
+		  </li>
+		  <li>You are interested in the general sentiment of statements/phrases/tweets</li>
+		  <li><b>Sentiment Analysis</b></li>
+		  <li>And many more; parsing syntactic structure, paraphrase detection, and so forth</li>
+		  <li>FYI: many sentence- or word-level tasks are referred to as <b>annotations</b> and systems that extract this kind of information are known as <b>annotators</b></li>
+	  </ul>
+  </article>
+</slide>
+
+<slide>
+  <article>
+    <iframe data-src="Python_ner.html"></iframe>
+  </article>
+</slide>
+
+<slide>
+  <article>
+    <iframe data-src="Python_sentiment.html"></iframe>
+  </article>
+</slide>
+
+<slide>
+  <article>
+    <iframe data-src="R_sentiment.html"></iframe>
+  </article>
+</slide>
+
+
+<slide>
+	<article class="flexbox vcenter">
+		<p>Breakout session!</p>
+		<p>Get in groups of no less than 3 and no more than 5.</p>
+		<p>Go into "sentiment_examples" and choose a file.  These are sentences that were either labeled positive/negative by one of these libraries or they were hand-annotated.  Debate the labels!  Does your group agree with the machine/hand-annotators?</p>
+		<p>We're going to discuss the labels afterwards, so identify examples of really good/bad examples</p>
+		</ul>
+	</article>
+</slide>
+
+<slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/ff-logo.png"></aside>
+  <hgroup class="auto-fadein">
+    <h2>Extracting data from texts</h2>
+    <h3>Document-level</h3>
+  </hgroup>
+</slide>
+
+<slide>
+  <hgroup>
+	  <h2>Why would we be interested in documents?</h2>
+  </hgroup>
+  <article>
+	  <ul class="build">
+		  <li>You know that every document belongs to a small (less than 10) set of <b>types</b> or <b>classes</b> and you don't have the time to spend on separating your documents into these groups</li>
+		  <li>You <b>do</b> have time to label a small subset of these documents
+		  <ul class="build fade">
+			  <li> <b>Supervised approaches</b>
+				  <li>AKA, automatic labeling, supervised classification, etc.</li>
+				  <li>e.g. OpenCalais, Google Prediction API</li>
+		  </ul>
+		  </li>
+		  <li> You <b>can't or don't have time</b> to label any of the documents</li>
+		  <li> (More than 10 topics, don't know the number of topics, exploratory data analysis</li>
+		  <ul class="build fade">
+			  <li><b>Unsupervised approaches</b>
+			  <li>Topic modeling</li>
+		  </ul>
+	  </ul>
+
+  </article>
+</slide>
+
+<slide>
+  <article>
+    <iframe data-src="Python_classification.html"></iframe>
+  </article>
+</slide>
+
+
+<slide>
+  <article>
+    <iframe data-src="R_classification.html"></iframe>
+  </article>
+</slide>
+
+
+<slide>
+	<article class="flexbox vcenter">
+		<p>Breakout session!</p>
+		<p>Get in groups of no less than 3 and no more than 5.</p>
+		<p>Go into "labeling_examples" and choose a file.  These are sentences that were either labeled positive/negative by one of these libraries or they were hand-annotated.  Debate the labels!  Does your group agree with the machine/hand-annotators?</p>
+		<p>We're going to discuss the labels afterwards, so identify examples of really good/bad examples</p>
+	</article>
+</slide>
+
+
+<slide>
+  <hgroup>
+    <h2>NYT Codes</h2>
+  </hgroup>
+  <article class="smaller">
+    <table>    
+  <tr><th>code</th><th>label</th></tr>
+   <tr><td>3</td><td>Health</td></tr>
+   <tr><td>16</td><td>Defense</td></tr>
+   <tr><td>19</td><td>International Affairs and Foreign Aid</td></tr>
+   <tr><td>20</td><td>Government Operations</td></tr>
+   <tr><td>29</td><td>Sports and Recreation</td></tr>
+   <tr><td>12</td><td>Law, Crime, and Family Issues</td></tr>
+   <tr><td>15</td><td>Banking, Finance, and Domestic Commerce</td></tr>
+  </table>
+  <p><tiny>http://www.policyagendas.org/sites/policyagendas.org/files/Boydstun_NYT_FrontPage_Codebook_0.pdf</tiny></p>
+   </article>
+</slide>
+
+  <slide class="thank-you-slide segue nobackground">
+    <aside class="gdbar right"><img src="images/ff-logo.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>Important contact information goes here.</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="logoslide dark nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/ff-logo.png"></span>
+    </article>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>

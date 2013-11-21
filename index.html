@@ -1,37 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>How to deal with text as data by rjweiss</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>How to deal with text as data by rjweiss</title>
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+    <div class="wrapper">
+      <header>
+        <h1 class="header">How to deal with text as data</h1>
+        <p class="header">Mozilla Festival 2013</p>
 
-        <header>
-          <h1>How to deal with text as data</h1>
-          <h2>Mozilla Festival 2013</h2>
-        </header>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/rjweiss/mozfest2013/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/rjweiss/mozfest2013/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/rjweiss/mozfest2013">View On GitHub</a></li>
+        </ul>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/rjweiss/mozfest2013/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/rjweiss/mozfest2013/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/rjweiss/mozfest2013" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/rjweiss">rjweiss</a></p>
 
-        <hr>
 
-        <section id="main_content">
-          <p>This repository contains the slides and code for the workshop on working with text as data for the Mozilla Festival 2013 in London.  If you have never cloned a git repository before, follow the bootcamp provided by GitHub: <a href="https://help.github.com/categories/54/articles">https://help.github.com/categories/54/articles</a></p>
+      </header>
+      <section>
+        <p>This repository contains the slides and code for the workshop on working with text as data for the Mozilla Festival 2013 in London.  If you have never cloned a git repository before, follow the bootcamp provided by GitHub: <a href="https://help.github.com/categories/54/articles">https://help.github.com/categories/54/articles</a></p>
 
 <pre><code>$ git clone https://github.com/rjweiss/mozfest2013.git
 $ cd mozfest-2013-slides
@@ -39,7 +38,12 @@ $ bash serve.sh
 # this will open up a browser and start serving the slide show
 </code></pre>
 
-<h3>
+<p>If you don't want to bother with downloading and running the code yourself, you can see the Python notebooks as static webpages here:</p>
+
+<ul>
+<li><a href="http://nbviewer.ipython.org/7158866">Simple text classification</a></li>
+<li><a href="http://nbviewer.ipython.org/7158902">Simple sentiment analysis</a></li>
+</ul><h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
 <p>Rebecca Weiss (<a href="https://github.com/rjweiss" class="user-mention">@rjweiss</a>) for the Mozilla Festival 2013</p>
@@ -57,17 +61,7 @@ $ bash serve.sh
 </li>
 </ul>
 </li>
-<li> Python scripts are distributed <a href="http://ipython.org/notebook.html">IPython notebooks</a>
-
-<ul>
-<li>If you can't run a Python IDE that can handle notebooks, try going to these links:
-
-<ul>
-<li><a href="http://nbviewer.ipython.org/7158866">Python classification gist</a></li>
-<li><a href="http://nbviewer.ipython.org/7158902">Python sentiment analysis gist</a></li>
-</ul>
-</li>
-</ul>
+<li> Python scripts are distributed as <a href="http://ipython.org/notebook.html">IPython notebooks</a>
 </li>
 </ul><h3>
 <a name="recommended-resources-for-the-workshop" class="anchor" href="#recommended-resources-for-the-workshop"><span class="octicon octicon-link"></span></a>Recommended resources for the workshop</h3>
@@ -84,19 +78,17 @@ $ bash serve.sh
 <li>Canopy (for Python): <a href="https://www.enthought.com/products/epd/free/">https://www.enthought.com/products/epd/free/</a>
 
 <ul>
-<li>Enthought Python Distribution comes with many useful Python dependencies and runs <a href="http://ipython.org/install.html">IPython</a>
-</li>
+<li>Enthought Python Distribution comes with many useful Python dependencies and runs <a href="http://ipython.org/install.html">IPython</a> and can open notebooks easily.</li>
 </ul>
 </li>
 </ul>
-        </section>
-
-        <footer>
-          How to deal with text as data is maintained by <a href="https://github.com/rjweiss">rjweiss</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-                  <script type="text/javascript">
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -107,7 +99,5 @@ $ bash serve.sh
             } catch(err) {}
           </script>
 
-      </div>
-    </div>
   </body>
 </html>
